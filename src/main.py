@@ -174,3 +174,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# WIP: benchmarking throughput versus accuracy [2025-06-12T10:33:46]

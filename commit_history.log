@@ -202,3 +202,4 @@
 [2026-06-08T12:41:00] LoRA encoder
 [2026-06-09T14:35:00] Data augmentation
 [2026-06-11T16:20:00] Data augmentation
+[2025-06-12T10:33:46] WIP: benchmarking throughput versus accuracy
