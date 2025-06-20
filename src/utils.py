@@ -45,3 +45,5 @@ def format_number(n: int) -> str:
     return f"{n:.1f}T"
 
 # Optimize mixed-precision training stability [2025-06-13T10:22:30]
+
+# Fix numerical stability in softmax computation [2025-06-20T12:29:40]
