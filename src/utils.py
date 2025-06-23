@@ -47,3 +47,5 @@ def format_number(n: int) -> str:
 # Optimize mixed-precision training stability [2025-06-13T10:22:30]
 
 # Fix numerical stability in softmax computation [2025-06-20T12:29:40]
+
+# WIP: benchmarking throughput versus accuracy [2025-06-23T16:35:47]
