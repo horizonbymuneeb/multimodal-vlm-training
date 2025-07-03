@@ -57,3 +57,5 @@ def format_number(n: int) -> str:
 # Implement knowledge distillation wrapper class [2025-07-01T12:30:41]
 
 # Implement gradient accumulation for large batches [2025-07-01T16:39:05]
+
+# WIP: benchmarking throughput versus accuracy [2025-07-03T20:31:42]
