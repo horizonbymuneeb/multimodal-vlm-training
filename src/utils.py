@@ -61,3 +61,5 @@ def format_number(n: int) -> str:
 # WIP: benchmarking throughput versus accuracy [2025-07-03T20:31:42]
 
 # Add early stopping with configurable patience [2025-07-04T15:52:38]
+
+# Fix weight decay application on biases [2025-07-09T19:33:46]
