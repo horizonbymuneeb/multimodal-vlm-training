@@ -214,3 +214,4 @@
 [2025-07-03T20:31:42] WIP: benchmarking throughput versus accuracy
 [2025-07-04T15:52:38] Add early stopping with configurable patience
 [2025-07-09T19:33:46] Fix weight decay application on biases
+[2025-07-09T17:37:56] Update gradient checkpointing for memory savings
