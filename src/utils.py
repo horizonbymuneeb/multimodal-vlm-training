@@ -63,3 +63,5 @@ def format_number(n: int) -> str:
 # Add early stopping with configurable patience [2025-07-04T15:52:38]
 
 # Fix weight decay application on biases [2025-07-09T19:33:46]
+
+# Fix tokenizer encoding for special characters [2025-07-10T18:57:09]
