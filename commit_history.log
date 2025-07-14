@@ -217,3 +217,4 @@
 [2025-07-09T17:37:56] Update gradient checkpointing for memory savings
 [2025-07-10T18:57:09] Fix tokenizer encoding for special characters
 [2025-07-14T16:53:28] Optimize mixed-precision training stability
+[2025-07-14T17:58:40] Update distributed sampler for uneven data
