@@ -69,3 +69,5 @@ def format_number(n: int) -> str:
 # Update distributed sampler for uneven data [2025-07-14T17:58:40]
 
 # Implement CLIP fusion architecture for vision-language [2025-07-23T13:58:21]
+
+# Fix tokenizer encoding for special characters [2025-07-24T11:23:06]

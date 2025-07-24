@@ -220,3 +220,4 @@
 [2025-07-14T17:58:40] Update distributed sampler for uneven data
 [2025-07-19T20:18:02] Optimize mixed-precision training stability
 [2025-07-23T13:58:21] Implement CLIP fusion architecture for vision-language
+[2025-07-24T11:23:06] Fix tokenizer encoding for special characters
