@@ -222,3 +222,4 @@
 [2025-07-23T13:58:21] Implement CLIP fusion architecture for vision-language
 [2025-07-24T11:23:06] Fix tokenizer encoding for special characters
 [2025-07-29T11:44:47] Add model parallelism for large architectures
+[2025-07-31T11:04:36] Update gradient checkpointing for memory savings
