@@ -192,3 +192,5 @@ if __name__ == '__main__':
 # Implement knowledge distillation wrapper class [2025-08-01T12:44:53]
 
 # Implement knowledge distillation wrapper class [2025-08-05T13:46:55]
+
+# Fix weight decay application on biases [2025-08-05T17:23:28]
