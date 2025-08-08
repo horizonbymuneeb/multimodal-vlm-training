@@ -226,3 +226,4 @@
 [2025-08-01T12:44:53] Implement knowledge distillation wrapper class
 [2025-08-05T13:46:55] Implement knowledge distillation wrapper class
 [2025-08-05T17:23:28] Fix weight decay application on biases
+[2025-08-08T17:02:49] Implement custom contrastive loss function
