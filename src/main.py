@@ -196,3 +196,5 @@ if __name__ == '__main__':
 # Fix weight decay application on biases [2025-08-05T17:23:28]
 
 # Implement custom contrastive loss function [2025-08-08T17:02:49]
+
+# Profile memory with activation checkpointing [2025-08-18T13:31:08]

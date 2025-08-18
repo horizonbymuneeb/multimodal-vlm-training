@@ -228,3 +228,4 @@
 [2025-08-05T17:23:28] Fix weight decay application on biases
 [2025-08-08T17:02:49] Implement custom contrastive loss function
 [2025-08-17T11:01:41] Update distributed sampler for uneven data
+[2025-08-18T13:31:08] Profile memory with activation checkpointing
