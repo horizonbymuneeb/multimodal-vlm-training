@@ -73,3 +73,5 @@ def format_number(n: int) -> str:
 # Fix tokenizer encoding for special characters [2025-07-24T11:23:06]
 
 # Update distributed sampler for uneven data [2025-08-17T11:01:41]
+
+# WIP: benchmarking throughput versus accuracy [2025-08-19T16:27:14]
