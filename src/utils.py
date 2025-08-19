@@ -75,3 +75,5 @@ def format_number(n: int) -> str:
 # Update distributed sampler for uneven data [2025-08-17T11:01:41]
 
 # WIP: benchmarking throughput versus accuracy [2025-08-19T16:27:14]
+
+# Profile memory with activation checkpointing [2025-08-19T15:11:20]
