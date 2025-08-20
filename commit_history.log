@@ -231,3 +231,4 @@
 [2025-08-18T13:31:08] Profile memory with activation checkpointing
 [2025-08-19T16:27:14] WIP: benchmarking throughput versus accuracy
 [2025-08-19T15:11:20] Profile memory with activation checkpointing
+[2025-08-20T14:23:58] Fix numerical stability in softmax computation

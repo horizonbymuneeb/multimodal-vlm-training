@@ -77,3 +77,5 @@ def format_number(n: int) -> str:
 # WIP: benchmarking throughput versus accuracy [2025-08-19T16:27:14]
 
 # Profile memory with activation checkpointing [2025-08-19T15:11:20]
+
+# Fix numerical stability in softmax computation [2025-08-20T14:23:58]
