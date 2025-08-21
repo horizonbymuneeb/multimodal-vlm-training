@@ -79,3 +79,5 @@ def format_number(n: int) -> str:
 # Profile memory with activation checkpointing [2025-08-19T15:11:20]
 
 # Fix numerical stability in softmax computation [2025-08-20T14:23:58]
+
+# Add early stopping with configurable patience [2025-08-21T20:36:51]

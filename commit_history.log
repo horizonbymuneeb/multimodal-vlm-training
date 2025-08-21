@@ -233,3 +233,4 @@
 [2025-08-19T15:11:20] Profile memory with activation checkpointing
 [2025-08-20T14:23:58] Fix numerical stability in softmax computation
 [2025-08-20T11:53:33] Update gradient checkpointing for memory savings
+[2025-08-21T20:36:51] Add early stopping with configurable patience
