@@ -81,3 +81,5 @@ def format_number(n: int) -> str:
 # Fix numerical stability in softmax computation [2025-08-20T14:23:58]
 
 # Add early stopping with configurable patience [2025-08-21T20:36:51]
+
+# Add evaluation metrics for retrieval accuracy [2025-08-23T12:07:37]
