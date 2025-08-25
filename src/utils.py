@@ -83,3 +83,5 @@ def format_number(n: int) -> str:
 # Add early stopping with configurable patience [2025-08-21T20:36:51]
 
 # Add evaluation metrics for retrieval accuracy [2025-08-23T12:07:37]
+
+# Debug distributed training synchronization hang [2025-08-25T12:26:23]
