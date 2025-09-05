@@ -89,3 +89,5 @@ def format_number(n: int) -> str:
 # Debug distributed training synchronization hang [2025-08-26T19:28:51]
 
 # Fix weight decay application on biases [2025-09-02T10:15:30]
+
+# Implement gradient accumulation for large batches [2025-09-05T09:55:41]
