@@ -91,3 +91,5 @@ def format_number(n: int) -> str:
 # Fix weight decay application on biases [2025-09-02T10:15:30]
 
 # Implement gradient accumulation for large batches [2025-09-05T09:55:41]
+
+# WIP: benchmarking throughput versus accuracy [2025-09-06T09:28:26]
