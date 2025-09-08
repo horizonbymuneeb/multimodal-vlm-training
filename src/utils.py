@@ -95,3 +95,5 @@ def format_number(n: int) -> str:
 # WIP: benchmarking throughput versus accuracy [2025-09-06T09:28:26]
 
 # Optimize mixed-precision training stability [2025-09-07T10:03:01]
+
+# Add early stopping with configurable patience [2025-09-08T18:43:20]
