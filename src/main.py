@@ -200,3 +200,5 @@ if __name__ == '__main__':
 # Profile memory with activation checkpointing [2025-08-18T13:31:08]
 
 # Update gradient checkpointing for memory savings [2025-08-20T11:53:33]
+
+# Add early stopping with configurable patience [2025-09-08T09:40:22]
