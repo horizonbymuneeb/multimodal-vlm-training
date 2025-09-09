@@ -202,3 +202,5 @@ if __name__ == '__main__':
 # Update gradient checkpointing for memory savings [2025-08-20T11:53:33]
 
 # Add early stopping with configurable patience [2025-09-08T09:40:22]
+
+# Fix numerical stability in softmax computation [2025-09-09T10:25:23]
