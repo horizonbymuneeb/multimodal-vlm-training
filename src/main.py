@@ -204,3 +204,5 @@ if __name__ == '__main__':
 # Add early stopping with configurable patience [2025-09-08T09:40:22]
 
 # Fix numerical stability in softmax computation [2025-09-09T10:25:23]
+
+# WIP: benchmarking throughput versus accuracy [2025-09-10T14:17:26]
