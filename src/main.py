@@ -206,3 +206,5 @@ if __name__ == '__main__':
 # Fix numerical stability in softmax computation [2025-09-09T10:25:23]
 
 # WIP: benchmarking throughput versus accuracy [2025-09-10T14:17:26]
+
+# Implement CLIP fusion architecture for vision-language [2025-09-13T13:19:48]
