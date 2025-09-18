@@ -208,3 +208,5 @@ if __name__ == '__main__':
 # WIP: benchmarking throughput versus accuracy [2025-09-10T14:17:26]
 
 # Implement CLIP fusion architecture for vision-language [2025-09-13T13:19:48]
+
+# Implement gradient accumulation for large batches [2025-09-18T12:39:01]
