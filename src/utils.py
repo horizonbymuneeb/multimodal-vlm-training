@@ -101,3 +101,5 @@ def format_number(n: int) -> str:
 # Debug distributed training synchronization hang [2025-09-11T13:40:39]
 
 # Add early stopping with configurable patience [2025-09-16T18:34:04]
+
+# Fix weight decay application on biases [2025-09-21T10:34:51]

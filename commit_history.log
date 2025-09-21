@@ -250,3 +250,4 @@
 [2025-09-16T18:34:04] Add early stopping with configurable patience
 [2025-09-18T12:39:01] Implement gradient accumulation for large batches
 [2025-09-19T12:53:56] Implement custom contrastive loss function
+[2025-09-21T10:34:51] Fix weight decay application on biases
