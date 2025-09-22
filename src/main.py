@@ -214,3 +214,5 @@ if __name__ == '__main__':
 # Implement custom contrastive loss function [2025-09-19T12:53:56]
 
 # Add early stopping with configurable patience [2025-09-22T12:06:50]
+
+# Fix numerical stability in softmax computation [2025-09-22T19:36:37]
