@@ -103,3 +103,5 @@ def format_number(n: int) -> str:
 # Add early stopping with configurable patience [2025-09-16T18:34:04]
 
 # Fix weight decay application on biases [2025-09-21T10:34:51]
+
+# Implement CLIP fusion architecture for vision-language [2025-09-25T15:18:31]
