@@ -105,3 +105,5 @@ def format_number(n: int) -> str:
 # Fix weight decay application on biases [2025-09-21T10:34:51]
 
 # Implement CLIP fusion architecture for vision-language [2025-09-25T15:18:31]
+
+# WIP: benchmarking throughput versus accuracy [2025-09-28T13:29:22]
