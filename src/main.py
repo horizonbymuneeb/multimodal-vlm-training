@@ -216,3 +216,5 @@ if __name__ == '__main__':
 # Add early stopping with configurable patience [2025-09-22T12:06:50]
 
 # Fix numerical stability in softmax computation [2025-09-22T19:36:37]
+
+# Profile memory with activation checkpointing [2025-09-29T11:46:38]
