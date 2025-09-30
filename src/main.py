@@ -220,3 +220,5 @@ if __name__ == '__main__':
 # Profile memory with activation checkpointing [2025-09-29T11:46:38]
 
 # Profile memory with activation checkpointing [2025-09-29T13:16:57]
+
+# Add LoRA layer to vision encoder for efficiency [2025-09-30T12:24:52]
