@@ -107,3 +107,5 @@ def format_number(n: int) -> str:
 # Implement CLIP fusion architecture for vision-language [2025-09-25T15:18:31]
 
 # WIP: benchmarking throughput versus accuracy [2025-09-28T13:29:22]
+
+# Fix tokenizer encoding for special characters [2025-09-30T19:20:51]
