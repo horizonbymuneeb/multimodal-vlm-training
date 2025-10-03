@@ -224,3 +224,5 @@ if __name__ == '__main__':
 # Add LoRA layer to vision encoder for efficiency [2025-09-30T12:24:52]
 
 # Optimize mixed-precision training stability [2025-09-30T14:19:20]
+
+# Add early stopping with configurable patience [2025-10-03T18:12:54]
