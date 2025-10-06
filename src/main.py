@@ -228,3 +228,5 @@ if __name__ == '__main__':
 # Add early stopping with configurable patience [2025-10-03T18:12:54]
 
 # Add LoRA layer to vision encoder for efficiency [2025-10-03T14:30:28]
+
+# Profile memory with activation checkpointing [2025-10-06T19:45:37]
