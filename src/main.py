@@ -230,3 +230,5 @@ if __name__ == '__main__':
 # Add LoRA layer to vision encoder for efficiency [2025-10-03T14:30:28]
 
 # Profile memory with activation checkpointing [2025-10-06T19:45:37]
+
+# Fix batch norm sync across distributed GPUs [2025-10-07T17:38:07]
