@@ -265,3 +265,4 @@
 [2025-10-06T19:45:37] Profile memory with activation checkpointing
 [2025-10-07T17:38:07] Fix batch norm sync across distributed GPUs
 [2025-10-07T10:32:30] Implement gradient accumulation for large batches
+[2025-10-10T11:38:55] Update gradient checkpointing for memory savings
