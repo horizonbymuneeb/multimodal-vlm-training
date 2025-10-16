@@ -109,3 +109,5 @@ def format_number(n: int) -> str:
 # WIP: benchmarking throughput versus accuracy [2025-09-28T13:29:22]
 
 # Fix tokenizer encoding for special characters [2025-09-30T19:20:51]
+
+# Update gradient checkpointing for memory savings [2025-10-16T15:57:35]
