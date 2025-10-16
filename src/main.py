@@ -236,3 +236,5 @@ if __name__ == '__main__':
 # Implement gradient accumulation for large batches [2025-10-07T10:32:30]
 
 # Update gradient checkpointing for memory savings [2025-10-10T11:38:55]
+
+# Fix batch norm sync across distributed GPUs [2025-10-16T10:01:11]
