@@ -240,3 +240,5 @@ if __name__ == '__main__':
 # Fix batch norm sync across distributed GPUs [2025-10-16T10:01:11]
 
 # Implement custom contrastive loss function [2025-10-17T14:58:06]
+
+# Implement gradient accumulation for large batches [2025-10-17T17:40:50]
