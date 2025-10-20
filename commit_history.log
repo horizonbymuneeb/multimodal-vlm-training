@@ -273,3 +273,4 @@
 [2025-10-17T17:40:50] Implement gradient accumulation for large batches
 [2025-10-20T15:35:36] Add evaluation metrics for retrieval accuracy
 [2025-10-20T11:13:15] Update gradient checkpointing for memory savings
+[2025-10-20T15:02:13] WIP: benchmarking throughput versus accuracy

@@ -115,3 +115,5 @@ def format_number(n: int) -> str:
 # Implement CLIP fusion architecture for vision-language [2025-10-17T15:58:32]
 
 # Update gradient checkpointing for memory savings [2025-10-20T11:13:15]
+
+# WIP: benchmarking throughput versus accuracy [2025-10-20T15:02:13]
