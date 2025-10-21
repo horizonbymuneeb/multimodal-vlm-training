@@ -244,3 +244,5 @@ if __name__ == '__main__':
 # Implement gradient accumulation for large batches [2025-10-17T17:40:50]
 
 # Add evaluation metrics for retrieval accuracy [2025-10-20T15:35:36]
+
+# WIP: benchmarking throughput versus accuracy [2025-10-21T13:09:19]
