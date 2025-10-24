@@ -276,3 +276,4 @@
 [2025-10-20T15:02:13] WIP: benchmarking throughput versus accuracy
 [2025-10-21T13:09:19] WIP: benchmarking throughput versus accuracy
 [2025-10-24T15:43:32] Fix numerical stability in softmax computation
+[2025-10-24T16:54:42] WIP: tuning learning rate schedule warmup

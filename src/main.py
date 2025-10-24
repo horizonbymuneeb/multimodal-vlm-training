@@ -248,3 +248,5 @@ if __name__ == '__main__':
 # WIP: benchmarking throughput versus accuracy [2025-10-21T13:09:19]
 
 # Fix numerical stability in softmax computation [2025-10-24T15:43:32]
+
+# WIP: tuning learning rate schedule warmup [2025-10-24T16:54:42]
