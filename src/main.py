@@ -246,3 +246,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2025-10-20T15:35:36]
 
 # WIP: benchmarking throughput versus accuracy [2025-10-21T13:09:19]
+
+# Fix numerical stability in softmax computation [2025-10-24T15:43:32]
