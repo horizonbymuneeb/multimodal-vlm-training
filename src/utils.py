@@ -117,3 +117,5 @@ def format_number(n: int) -> str:
 # Update gradient checkpointing for memory savings [2025-10-20T11:13:15]
 
 # WIP: benchmarking throughput versus accuracy [2025-10-20T15:02:13]
+
+# Add data augmentation pipeline for images [2025-10-28T10:54:06]
