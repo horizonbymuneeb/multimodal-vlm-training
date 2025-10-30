@@ -278,3 +278,4 @@
 [2025-10-24T15:43:32] Fix numerical stability in softmax computation
 [2025-10-24T16:54:42] WIP: tuning learning rate schedule warmup
 [2025-10-28T10:54:06] Add data augmentation pipeline for images
+[2025-10-30T11:35:03] Add evaluation metrics for retrieval accuracy

@@ -250,3 +250,5 @@ if __name__ == '__main__':
 # Fix numerical stability in softmax computation [2025-10-24T15:43:32]
 
 # WIP: tuning learning rate schedule warmup [2025-10-24T16:54:42]
+
+# Add evaluation metrics for retrieval accuracy [2025-10-30T11:35:03]
