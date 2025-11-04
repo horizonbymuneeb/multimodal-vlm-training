@@ -252,3 +252,5 @@ if __name__ == '__main__':
 # WIP: tuning learning rate schedule warmup [2025-10-24T16:54:42]
 
 # Add evaluation metrics for retrieval accuracy [2025-10-30T11:35:03]
+
+# Add model parallelism for large architectures [2025-11-04T20:50:07]
