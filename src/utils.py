@@ -119,3 +119,5 @@ def format_number(n: int) -> str:
 # WIP: benchmarking throughput versus accuracy [2025-10-20T15:02:13]
 
 # Add data augmentation pipeline for images [2025-10-28T10:54:06]
+
+# Fix batch norm sync across distributed GPUs [2025-11-04T09:11:11]

@@ -279,3 +279,4 @@
 [2025-10-24T16:54:42] WIP: tuning learning rate schedule warmup
 [2025-10-28T10:54:06] Add data augmentation pipeline for images
 [2025-10-30T11:35:03] Add evaluation metrics for retrieval accuracy
+[2025-11-04T09:11:11] Fix batch norm sync across distributed GPUs
