@@ -281,3 +281,4 @@
 [2025-10-30T11:35:03] Add evaluation metrics for retrieval accuracy
 [2025-11-04T09:11:11] Fix batch norm sync across distributed GPUs
 [2025-11-04T20:50:07] Add model parallelism for large architectures
+[2025-11-05T11:52:26] Add LoRA layer to vision encoder for efficiency
