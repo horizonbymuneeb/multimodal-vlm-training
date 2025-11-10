@@ -125,3 +125,5 @@ def format_number(n: int) -> str:
 # Add LoRA layer to vision encoder for efficiency [2025-11-05T11:52:26]
 
 # Add early stopping with configurable patience [2025-11-06T17:57:27]
+
+# Add data augmentation pipeline for images [2025-11-10T15:45:08]
