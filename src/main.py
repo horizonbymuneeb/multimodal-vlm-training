@@ -258,3 +258,5 @@ if __name__ == '__main__':
 # Optimize mixed-precision training stability [2025-11-06T09:21:19]
 
 # Add early stopping with configurable patience [2025-11-06T17:02:13]
+
+# WIP: benchmarking throughput versus accuracy [2025-11-10T12:19:31]

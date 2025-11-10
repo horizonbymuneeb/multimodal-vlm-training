@@ -285,3 +285,4 @@
 [2025-11-06T09:21:19] Optimize mixed-precision training stability
 [2025-11-06T17:02:13] Add early stopping with configurable patience
 [2025-11-06T17:57:27] Add early stopping with configurable patience
+[2025-11-10T12:19:31] WIP: benchmarking throughput versus accuracy
