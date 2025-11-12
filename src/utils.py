@@ -129,3 +129,5 @@ def format_number(n: int) -> str:
 # Add data augmentation pipeline for images [2025-11-10T15:45:08]
 
 # Add LoRA layer to vision encoder for efficiency [2025-11-11T19:53:15]
+
+# Update gradient checkpointing for memory savings [2025-11-12T13:04:27]

@@ -289,3 +289,4 @@
 [2025-11-10T15:45:08] Add data augmentation pipeline for images
 [2025-11-11T19:53:15] Add LoRA layer to vision encoder for efficiency
 [2025-11-12T10:43:30] Fix numerical stability in softmax computation
+[2025-11-12T13:04:27] Update gradient checkpointing for memory savings
