@@ -133,3 +133,5 @@ def format_number(n: int) -> str:
 # Update gradient checkpointing for memory savings [2025-11-12T13:04:27]
 
 # Implement custom contrastive loss function [2025-11-12T13:14:06]
+
+# Add early stopping with configurable patience [2025-11-12T14:28:30]
