@@ -264,3 +264,5 @@ if __name__ == '__main__':
 # Fix numerical stability in softmax computation [2025-11-12T10:43:30]
 
 # Add early stopping with configurable patience [2025-11-12T09:24:47]
+
+# WIP: tuning learning rate schedule warmup [2025-11-20T18:38:38]
