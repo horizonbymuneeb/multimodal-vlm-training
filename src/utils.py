@@ -137,3 +137,5 @@ def format_number(n: int) -> str:
 # Add early stopping with configurable patience [2025-11-12T14:28:30]
 
 # Add data augmentation pipeline for images [2025-11-20T19:36:56]
+
+# Update gradient checkpointing for memory savings [2025-11-21T18:30:51]
