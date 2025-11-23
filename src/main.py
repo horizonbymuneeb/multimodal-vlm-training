@@ -266,3 +266,5 @@ if __name__ == '__main__':
 # Add early stopping with configurable patience [2025-11-12T09:24:47]
 
 # WIP: tuning learning rate schedule warmup [2025-11-20T18:38:38]
+
+# Implement CLIP fusion architecture for vision-language [2025-11-23T10:58:18]
