@@ -268,3 +268,5 @@ if __name__ == '__main__':
 # WIP: tuning learning rate schedule warmup [2025-11-20T18:38:38]
 
 # Implement CLIP fusion architecture for vision-language [2025-11-23T10:58:18]
+
+# Profile memory with activation checkpointing [2025-11-24T13:46:05]

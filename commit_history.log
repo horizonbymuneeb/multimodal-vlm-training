@@ -297,3 +297,4 @@
 [2025-11-20T18:38:38] WIP: tuning learning rate schedule warmup
 [2025-11-21T18:30:51] Update gradient checkpointing for memory savings
 [2025-11-23T10:58:18] Implement CLIP fusion architecture for vision-language
+[2025-11-24T13:46:05] Profile memory with activation checkpointing
