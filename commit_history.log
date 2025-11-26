@@ -298,3 +298,4 @@
 [2025-11-21T18:30:51] Update gradient checkpointing for memory savings
 [2025-11-23T10:58:18] Implement CLIP fusion architecture for vision-language
 [2025-11-24T13:46:05] Profile memory with activation checkpointing
+[2025-11-26T14:19:29] Fix batch norm sync across distributed GPUs
