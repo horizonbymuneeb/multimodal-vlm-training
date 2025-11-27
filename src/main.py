@@ -270,3 +270,5 @@ if __name__ == '__main__':
 # Implement CLIP fusion architecture for vision-language [2025-11-23T10:58:18]
 
 # Profile memory with activation checkpointing [2025-11-24T13:46:05]
+
+# Fix batch norm sync across distributed GPUs [2025-11-27T19:42:56]
