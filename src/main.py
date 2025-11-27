@@ -272,3 +272,5 @@ if __name__ == '__main__':
 # Profile memory with activation checkpointing [2025-11-24T13:46:05]
 
 # Fix batch norm sync across distributed GPUs [2025-11-27T19:42:56]
+
+# Update gradient checkpointing for memory savings [2025-11-27T12:57:33]
