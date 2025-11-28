@@ -274,3 +274,5 @@ if __name__ == '__main__':
 # Fix batch norm sync across distributed GPUs [2025-11-27T19:42:56]
 
 # Update gradient checkpointing for memory savings [2025-11-27T12:57:33]
+
+# Add LoRA layer to vision encoder for efficiency [2025-11-28T15:42:30]
