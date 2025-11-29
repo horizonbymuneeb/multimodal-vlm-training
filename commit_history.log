@@ -302,3 +302,4 @@
 [2025-11-27T19:42:56] Fix batch norm sync across distributed GPUs
 [2025-11-27T12:57:33] Update gradient checkpointing for memory savings
 [2025-11-28T15:42:30] Add LoRA layer to vision encoder for efficiency
+[2025-11-29T17:21:36] Update distributed sampler for uneven data

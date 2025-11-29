@@ -141,3 +141,5 @@ def format_number(n: int) -> str:
 # Update gradient checkpointing for memory savings [2025-11-21T18:30:51]
 
 # Fix batch norm sync across distributed GPUs [2025-11-26T14:19:29]
+
+# Update distributed sampler for uneven data [2025-11-29T17:21:36]
