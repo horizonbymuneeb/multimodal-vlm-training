@@ -276,3 +276,5 @@ if __name__ == '__main__':
 # Update gradient checkpointing for memory savings [2025-11-27T12:57:33]
 
 # Add LoRA layer to vision encoder for efficiency [2025-11-28T15:42:30]
+
+# Update distributed sampler for uneven data [2025-11-30T19:37:28]
