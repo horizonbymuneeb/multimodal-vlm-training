@@ -304,3 +304,4 @@
 [2025-11-28T15:42:30] Add LoRA layer to vision encoder for efficiency
 [2025-11-29T17:21:36] Update distributed sampler for uneven data
 [2025-11-30T19:37:28] Update distributed sampler for uneven data
+[2025-12-01T20:46:21] Implement knowledge distillation wrapper class
