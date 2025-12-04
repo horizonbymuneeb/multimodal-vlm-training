@@ -143,3 +143,5 @@ def format_number(n: int) -> str:
 # Fix batch norm sync across distributed GPUs [2025-11-26T14:19:29]
 
 # Update distributed sampler for uneven data [2025-11-29T17:21:36]
+
+# Add early stopping with configurable patience [2025-12-04T20:45:19]
