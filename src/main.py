@@ -280,3 +280,5 @@ if __name__ == '__main__':
 # Update distributed sampler for uneven data [2025-11-30T19:37:28]
 
 # Implement knowledge distillation wrapper class [2025-12-01T20:46:21]
+
+# Fix tokenizer encoding for special characters [2025-12-04T10:53:35]
