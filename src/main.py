@@ -284,3 +284,5 @@ if __name__ == '__main__':
 # Fix tokenizer encoding for special characters [2025-12-04T10:53:35]
 
 # Add data augmentation pipeline for images [2025-12-08T13:52:32]
+
+# Fix tokenizer encoding for special characters [2025-12-12T09:49:24]
