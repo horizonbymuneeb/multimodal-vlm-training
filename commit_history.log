@@ -310,3 +310,4 @@
 [2025-12-08T13:52:32] Add data augmentation pipeline for images
 [2025-12-11T18:38:56] Add data augmentation pipeline for images
 [2025-12-12T09:49:24] Fix tokenizer encoding for special characters
+[2025-12-14T18:44:27] Update distributed sampler for uneven data
