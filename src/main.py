@@ -286,3 +286,5 @@ if __name__ == '__main__':
 # Add data augmentation pipeline for images [2025-12-08T13:52:32]
 
 # Fix tokenizer encoding for special characters [2025-12-12T09:49:24]
+
+# Profile memory with activation checkpointing [2025-12-14T11:37:53]
