@@ -314,3 +314,4 @@
 [2025-12-14T11:37:53] Profile memory with activation checkpointing
 [2025-12-15T10:40:31] Profile memory with activation checkpointing
 [2025-12-15T15:01:45] Fix numerical stability in softmax computation
+[2025-12-15T11:47:01] WIP: tuning learning rate schedule warmup

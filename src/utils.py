@@ -151,3 +151,5 @@ def format_number(n: int) -> str:
 # Update distributed sampler for uneven data [2025-12-14T18:44:27]
 
 # Profile memory with activation checkpointing [2025-12-15T10:40:31]
+
+# WIP: tuning learning rate schedule warmup [2025-12-15T11:47:01]
