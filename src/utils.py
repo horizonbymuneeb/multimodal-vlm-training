@@ -149,3 +149,5 @@ def format_number(n: int) -> str:
 # Add data augmentation pipeline for images [2025-12-11T18:38:56]
 
 # Update distributed sampler for uneven data [2025-12-14T18:44:27]
+
+# Profile memory with activation checkpointing [2025-12-15T10:40:31]
