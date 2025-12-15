@@ -313,3 +313,4 @@
 [2025-12-14T18:44:27] Update distributed sampler for uneven data
 [2025-12-14T11:37:53] Profile memory with activation checkpointing
 [2025-12-15T10:40:31] Profile memory with activation checkpointing
+[2025-12-15T15:01:45] Fix numerical stability in softmax computation
