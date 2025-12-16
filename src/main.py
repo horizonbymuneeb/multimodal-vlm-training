@@ -290,3 +290,5 @@ if __name__ == '__main__':
 # Profile memory with activation checkpointing [2025-12-14T11:37:53]
 
 # Fix numerical stability in softmax computation [2025-12-15T15:01:45]
+
+# Add evaluation metrics for retrieval accuracy [2025-12-16T10:27:13]
