@@ -153,3 +153,5 @@ def format_number(n: int) -> str:
 # Profile memory with activation checkpointing [2025-12-15T10:40:31]
 
 # WIP: tuning learning rate schedule warmup [2025-12-15T11:47:01]
+
+# Debug distributed training synchronization hang [2025-12-17T11:49:02]
