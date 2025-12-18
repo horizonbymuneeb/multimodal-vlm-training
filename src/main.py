@@ -294,3 +294,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2025-12-16T10:27:13]
 
 # Implement CLIP fusion architecture for vision-language [2025-12-17T09:16:02]
+
+# WIP: benchmarking throughput versus accuracy [2025-12-18T15:31:20]
