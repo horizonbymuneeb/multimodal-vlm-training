@@ -155,3 +155,5 @@ def format_number(n: int) -> str:
 # WIP: tuning learning rate schedule warmup [2025-12-15T11:47:01]
 
 # Debug distributed training synchronization hang [2025-12-17T11:49:02]
+
+# Add evaluation metrics for retrieval accuracy [2025-12-22T10:05:20]
