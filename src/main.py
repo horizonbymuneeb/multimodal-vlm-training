@@ -298,3 +298,5 @@ if __name__ == '__main__':
 # WIP: benchmarking throughput versus accuracy [2025-12-18T15:31:20]
 
 # Implement CLIP fusion architecture for vision-language [2025-12-23T13:15:14]
+
+# Add model parallelism for large architectures [2025-12-26T09:29:11]
