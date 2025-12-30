@@ -324,3 +324,4 @@
 [2025-12-26T11:13:58] Debug distributed training synchronization hang
 [2025-12-26T09:29:11] Add model parallelism for large architectures
 [2025-12-26T13:02:17] Implement custom contrastive loss function
+[2025-12-30T11:29:30] Fix batch norm sync across distributed GPUs

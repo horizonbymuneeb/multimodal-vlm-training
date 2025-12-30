@@ -159,3 +159,5 @@ def format_number(n: int) -> str:
 # Add evaluation metrics for retrieval accuracy [2025-12-22T10:05:20]
 
 # Debug distributed training synchronization hang [2025-12-26T11:13:58]
+
+# Fix batch norm sync across distributed GPUs [2025-12-30T11:29:30]
