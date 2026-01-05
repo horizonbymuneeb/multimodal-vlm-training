@@ -161,3 +161,5 @@ def format_number(n: int) -> str:
 # Debug distributed training synchronization hang [2025-12-26T11:13:58]
 
 # Fix batch norm sync across distributed GPUs [2025-12-30T11:29:30]
+
+# Fix numerical stability in softmax computation [2026-01-05T14:51:44]
