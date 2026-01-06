@@ -304,3 +304,5 @@ if __name__ == '__main__':
 # Implement custom contrastive loss function [2025-12-26T13:02:17]
 
 # Update distributed sampler for uneven data [2026-01-05T19:17:35]
+
+# Fix tokenizer encoding for special characters [2026-01-06T10:20:58]
