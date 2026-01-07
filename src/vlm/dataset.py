@@ -58,3 +58,57 @@ class SceneSpec:
             raise ValueError(f"unknown second shape {self.second_shape!r}")
         if self.second_color is not None and self.second_color not in COLORS:
             raise ValueError(f"unknown second colour {self.second_color!r}")
+
+
+def random_spec(seed: int) -> SceneSpec:
+    """Deterministically draw a scene spec from a seed."""
+    rng = np.random.default_rng(seed)
+    shape = SHAPES[int(rng.integers(0, len(SHAPES)))]
+    color = list(COLORS)[int(rng.integers(0, len(COLORS)))]
+    position = list(POSITIONS)[int(rng.integers(0, len(POSITIONS)))]
+    second = None
+    second_color = None
+    if rng.random() < 0.35:
+        second = SHAPES[int(rng.integers(0, len(SHAPES)))]
+        second_color = list(COLORS)[int(rng.integers(0, len(COLORS)))]
+    return SceneSpec(
+        shape=str(shape),
+        color=str(color),
+        position=str(position),
+        seed=seed,
+        second_shape=str(second) if second else None,
+        second_color=str(second_color) if second_color else None,
+    )
+
+
+def caption_for(spec: SceneSpec) -> str:
+    """The sentence that describes a scene, in a fixed word order."""
+    text = f"a {spec.color} {spec.shape} at {spec.position}"
+    if spec.second_shape and spec.second_color:
+        text += f" and a {spec.second_color} {spec.second_shape}"
+    return text
+
+
+def _paint(
+    canvas: np.ndarray,
+    shape: str,
+    color: tuple[float, float, float],
+    center: tuple[float, float],
+    radius: float,
+) -> None:
+    height, width = canvas.shape[1:]
+    yy, xx = np.mgrid[0:height, 0:width]
+    cy, cx = center[0] * height, center[1] * width
+    if shape == "circle":
+        mask = (yy - cy) ** 2 + (xx - cx) ** 2 <= radius**2
+    elif shape == "square":
+        mask = (np.abs(yy - cy) <= radius) & (np.abs(xx - cx) <= radius)
+    elif shape == "triangle":
+        # Upright triangle: below the apex and inside the two sloping edges.
+        mask = (yy >= cy - radius) & (yy <= cy + radius) & (
+            np.abs(xx - cx) <= (yy - (cy - radius)) * 0.6
+        )
+    else:  # pragma: no cover - guarded by SceneSpec
+        raise ValueError(f"unknown shape {shape!r}")
+    for channel, value in enumerate(color):
+        canvas[channel][mask] = value
