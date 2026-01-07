@@ -329,3 +329,4 @@
 [2026-01-05T19:17:35] Update distributed sampler for uneven data
 [2026-01-06T10:20:58] Fix tokenizer encoding for special characters
 [2026-01-06T15:58:06] WIP: tuning learning rate schedule warmup
+[2026-01-07T20:16:31] Optimize mixed-precision training stability

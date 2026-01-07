@@ -306,3 +306,5 @@ if __name__ == '__main__':
 # Update distributed sampler for uneven data [2026-01-05T19:17:35]
 
 # Fix tokenizer encoding for special characters [2026-01-06T10:20:58]
+
+# Optimize mixed-precision training stability [2026-01-07T20:16:31]
