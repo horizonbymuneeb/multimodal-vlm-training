@@ -112,3 +112,24 @@ def _paint(
         raise ValueError(f"unknown shape {shape!r}")
     for channel, value in enumerate(color):
         canvas[channel][mask] = value
+
+
+def render_scene(spec: SceneSpec, size: int = 16) -> np.ndarray:
+    """Render a scene to a ``(3, size, size)`` float array in ``[0, 1]``."""
+    if size < 8:
+        raise ValueError("size must be at least 8")
+    canvas = np.full((3, size, size), 0.05, dtype=np.float32)
+    radius = max(1.5, size * 0.16)
+    _paint(canvas, spec.shape, COLORS[spec.color], POSITIONS[spec.position], radius)
+    if spec.second_shape and spec.second_color:
+        _paint(canvas, spec.second_shape, COLORS[spec.second_color], (0.5, 0.5), radius * 0.8)
+    # Light per-pixel noise so identical scenes are not byte-identical batches.
+    rng = np.random.default_rng(spec.seed + 991)
+    canvas += rng.normal(0.0, 0.01, size=canvas.shape).astype(np.float32)
+    return np.clip(canvas, 0.0, 1.0)
+
+
+def generate_sample(seed: int, size: int = 16) -> tuple[np.ndarray, str, SceneSpec]:
+    """Image, caption and the spec that produced them."""
+    spec = random_spec(seed)
+    return render_scene(spec, size), caption_for(spec), spec
