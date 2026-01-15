@@ -1,0 +1,29 @@
+# Toy training setup: small enough that the whole suite runs in seconds on CPU.
+data:
+  image_size: 16
+  train_samples: 64
+  val_samples: 16
+  seed: 3
+
+model:
+  vision_dim: 48
+  text_dim: 48
+  n_heads: 4
+  n_layers: 1
+  max_len: 12
+  dropout: 0.0
+  vocab_min_freq: 1
+
+lora:
+  rank: 4
+  alpha: 8.0
+  targets: ["q_proj", "v_proj"]
+
+train:
+  epochs: 3
+  batch_size: 8
+  lr: 0.01
+  weight_decay: 0.0
+  temperature: 0.07
+  caption_weight: 0.5
+  seed: 5
