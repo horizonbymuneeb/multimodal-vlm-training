@@ -133,3 +133,69 @@ def generate_sample(seed: int, size: int = 16) -> tuple[np.ndarray, str, SceneSp
     """Image, caption and the spec that produced them."""
     spec = random_spec(seed)
     return render_scene(spec, size), caption_for(spec), spec
+
+
+class SyntheticCaptionDataset(Dataset):
+    """Dataset of rendered scenes with tokenised captions."""
+
+    def __init__(
+        self,
+        n: int,
+        vocab: Vocab,
+        *,
+        image_size: int = 16,
+        max_len: int = 12,
+        seed: int = 0,
+    ) -> None:
+        if n <= 0:
+            raise ValueError("n must be positive")
+        if image_size < 8:
+            raise ValueError("image_size must be at least 8")
+        if max_len < 2:
+            raise ValueError("max_len must be at least 2")
+        self.n = int(n)
+        self.vocab = vocab
+        self.image_size = int(image_size)
+        self.max_len = int(max_len)
+        self.seed = int(seed)
+        self.seeds = [seed * 100_000 + i for i in range(n)]
+
+    def __len__(self) -> int:
+        return self.n
+
+    def spec_at(self, index: int) -> SceneSpec:
+        return random_spec(self.seeds[index])
+
+    def caption_at(self, index: int) -> str:
+        return caption_for(self.spec_at(index))
+
+    def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
+        spec = self.spec_at(index)
+        image = render_scene(spec, self.image_size)
+        ids = truncate(self.vocab.encode(caption_for(spec)), self.max_len, eos_id=self.vocab.eos_id)
+        return {
+            "image": torch.from_numpy(image),
+            "ids": torch.tensor(ids, dtype=torch.long),
+            "length": torch.tensor(len(ids), dtype=torch.long),
+        }
+
+    def captions(self) -> list[str]:
+        return [self.caption_at(i) for i in range(self.n)]
+
+
+def collate_captions(
+    batch: Sequence[dict[str, torch.Tensor]],
+    pad_id: int = PAD_ID,
+) -> dict[str, torch.Tensor]:
+    """Pad a batch of variable-length captions into ``(N, T)`` ids plus a mask."""
+    items = list(batch)
+    if not items:
+        raise ValueError("cannot collate an empty batch")
+    images = torch.stack([item["image"] for item in items], dim=0)
+    id_lists = [item["ids"].tolist() for item in items]
+    padded, mask = pad_sequences(id_lists, pad_id=pad_id)
+    return {
+        "image": images,
+        "ids": torch.tensor(padded, dtype=torch.long),
+        "mask": torch.tensor(mask, dtype=torch.long),
+    }
