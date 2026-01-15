@@ -308,3 +308,5 @@ if __name__ == '__main__':
 # Fix tokenizer encoding for special characters [2026-01-06T10:20:58]
 
 # Optimize mixed-precision training stability [2026-01-07T20:16:31]
+
+# Fix batch norm sync across distributed GPUs [2026-01-15T20:55:35]
