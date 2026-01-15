@@ -167,3 +167,5 @@ def format_number(n: int) -> str:
 # WIP: tuning learning rate schedule warmup [2026-01-06T15:58:06]
 
 # Profile memory with activation checkpointing [2026-01-12T11:04:03]
+
+# Implement custom contrastive loss function [2026-01-15T19:32:29]
