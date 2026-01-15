@@ -169,3 +169,5 @@ def format_number(n: int) -> str:
 # Profile memory with activation checkpointing [2026-01-12T11:04:03]
 
 # Implement custom contrastive loss function [2026-01-15T19:32:29]
+
+# Add LoRA layer to vision encoder for efficiency [2026-01-15T13:14:18]
