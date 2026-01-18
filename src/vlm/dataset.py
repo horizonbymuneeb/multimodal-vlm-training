@@ -199,3 +199,29 @@ def collate_captions(
         "ids": torch.tensor(padded, dtype=torch.long),
         "mask": torch.tensor(mask, dtype=torch.long),
     }
+
+
+def make_dataloader(
+    n: int,
+    vocab: Vocab,
+    *,
+    batch_size: int = 8,
+    image_size: int = 16,
+    max_len: int = 12,
+    seed: int = 0,
+    shuffle: bool = True,
+) -> DataLoader:
+    """DataLoader over the synthetic dataset with caption padding."""
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
+    dataset = SyntheticCaptionDataset(
+        n, vocab, image_size=image_size, max_len=max_len, seed=seed
+    )
+    generator = torch.Generator().manual_seed(seed)
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        generator=generator,
+        collate_fn=lambda batch: collate_captions(batch, pad_id=vocab.pad_id),
+    )
