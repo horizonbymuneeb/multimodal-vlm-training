@@ -173,3 +173,5 @@ def format_number(n: int) -> str:
 # Add LoRA layer to vision encoder for efficiency [2026-01-15T13:14:18]
 
 # Implement custom contrastive loss function [2026-01-18T17:57:42]
+
+# Add evaluation metrics for retrieval accuracy [2026-01-19T17:54:05]
