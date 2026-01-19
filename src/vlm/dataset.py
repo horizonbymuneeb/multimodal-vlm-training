@@ -225,3 +225,30 @@ def make_dataloader(
         generator=generator,
         collate_fn=lambda batch: collate_captions(batch, pad_id=vocab.pad_id),
     )
+
+
+def dataset_vocabulary(
+    n: int,
+    *,
+    image_size: int = 16,
+    seed: int = 0,
+    min_freq: int = 1,
+) -> Vocab:
+    """Build the vocabulary that the dataset at ``seed`` will actually use."""
+    from src.vlm.tokenizer import build_vocab
+
+    captions = [caption_for(random_spec(seed * 100_000 + i)) for i in range(n)]
+    return build_vocab(captions, min_freq=min_freq)
+
+
+def caption_token_budget(captions: Iterable[str]) -> dict[str, float]:
+    """Length statistics used to pick ``max_len`` instead of guessing."""
+    lengths = [len(caption.split()) + 2 for caption in captions]  # +bos +eos
+    lengths = list(lengths)
+    if not lengths:
+        raise ValueError("no captions")
+    return {
+        "min": float(min(lengths)),
+        "max": float(max(lengths)),
+        "mean": float(np.mean(lengths)),
+    }
