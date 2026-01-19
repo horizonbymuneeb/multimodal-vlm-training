@@ -175,3 +175,5 @@ def format_number(n: int) -> str:
 # Implement custom contrastive loss function [2026-01-18T17:57:42]
 
 # Add evaluation metrics for retrieval accuracy [2026-01-19T17:54:05]
+
+# Add early stopping with configurable patience [2026-01-19T16:52:23]
