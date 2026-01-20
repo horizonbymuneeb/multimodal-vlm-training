@@ -36,3 +36,20 @@ def cfg(vocab):
 @pytest.fixture
 def model(cfg):
     return build_model(cfg.vocab_size, cfg, seed=0)
+
+
+@pytest.fixture(scope="session")
+def loader(vocab):
+    return make_dataloader(
+        16, vocab, batch_size=4, image_size=8, max_len=14, seed=2, shuffle=False
+    )
+
+
+@pytest.fixture
+def batch(loader):
+    return next(iter(loader))
+
+
+@pytest.fixture
+def rng():
+    return torch.Generator().manual_seed(0)
