@@ -179,3 +179,5 @@ def format_number(n: int) -> str:
 # Add early stopping with configurable patience [2026-01-19T16:52:23]
 
 # WIP: benchmarking throughput versus accuracy [2026-01-22T16:33:42]
+
+# Implement gradient accumulation for large batches [2026-01-22T09:39:14]
