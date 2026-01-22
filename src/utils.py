@@ -177,3 +177,5 @@ def format_number(n: int) -> str:
 # Add evaluation metrics for retrieval accuracy [2026-01-19T17:54:05]
 
 # Add early stopping with configurable patience [2026-01-19T16:52:23]
+
+# WIP: benchmarking throughput versus accuracy [2026-01-22T16:33:42]
