@@ -63,3 +63,39 @@ def describe_losses(bundle: dict) -> dict:
         loss = info_nce_loss(out["image_emb"], out["text_emb"], temperature=0.07)
         accuracy = batch_retrieval_accuracy(out["image_emb"], out["text_emb"])
     return {"untrained_infonce": float(loss.item()), "untrained_i2t@1": accuracy}
+
+
+def run_demo(config: dict, *, verbose: bool = False) -> dict:
+    """Build, train briefly and evaluate; returns a JSON-friendly report."""
+    bundle = build_experiment(config)
+    before = describe_losses(bundle)
+    history = fit(bundle["model"], bundle["train_loader"], bundle["train_cfg"], verbose=verbose)
+    metrics = evaluate_all(bundle["model"], bundle["val_loader"], k_values=(1, 3), pad_id=0)
+    return {
+        "data": describe_data(config),
+        "model": describe_model(bundle),
+        "losses": before,
+        "train": {
+            "epochs": history["epochs"],
+            "first_loss": history["first_loss"],
+            "last_loss": history["last_loss"],
+            "seconds": round(float(history["seconds"]), 3),
+        },
+        "val": metrics,
+        "val_summary": summarise_metrics(metrics),
+    }
+
+
+def main(argv: Iterable[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Run the toy VLM demo")
+    parser.add_argument("--config", default="config.yaml")
+    parser.add_argument("--out", default=None)
+    args = parser.parse_args(list(argv) if argv is not None else None)
+    report = run_demo(load_config(args.config))
+    text = json.dumps(report, indent=2)
+    print(text)
+    if args.out:
+        path = Path(args.out)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text)
+    return 0
