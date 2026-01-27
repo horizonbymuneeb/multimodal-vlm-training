@@ -343,3 +343,4 @@
 [2026-01-23T15:05:23] Add evaluation metrics for retrieval accuracy
 [2026-01-25T16:55:15] Implement knowledge distillation wrapper class
 [2026-01-27T17:03:54] Update distributed sampler for uneven data
+[2026-01-27T18:21:39] WIP: tuning learning rate schedule warmup

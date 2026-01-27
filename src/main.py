@@ -312,3 +312,5 @@ if __name__ == '__main__':
 # Fix batch norm sync across distributed GPUs [2026-01-15T20:55:35]
 
 # Implement CLIP fusion architecture for vision-language [2026-01-20T12:52:36]
+
+# WIP: tuning learning rate schedule warmup [2026-01-27T18:21:39]
