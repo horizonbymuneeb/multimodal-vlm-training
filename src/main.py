@@ -314,3 +314,5 @@ if __name__ == '__main__':
 # Implement CLIP fusion architecture for vision-language [2026-01-20T12:52:36]
 
 # WIP: tuning learning rate schedule warmup [2026-01-27T18:21:39]
+
+# Add evaluation metrics for retrieval accuracy [2026-01-28T09:17:09]
