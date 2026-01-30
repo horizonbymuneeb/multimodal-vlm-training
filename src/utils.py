@@ -189,3 +189,5 @@ def format_number(n: int) -> str:
 # Update distributed sampler for uneven data [2026-01-27T17:03:54]
 
 # Implement gradient accumulation for large batches [2026-01-30T13:51:05]
+
+# Fix numerical stability in softmax computation [2026-01-30T09:03:58]
