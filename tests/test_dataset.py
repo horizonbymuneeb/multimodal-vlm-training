@@ -49,3 +49,28 @@ def test_render_scene_second_shape_changes_pixels():
         size=12,
     )
     assert not np.allclose(single, double)
+
+
+def test_render_scene_rejects_tiny_images():
+    with pytest.raises(ValueError):
+        render_scene(SceneSpec("circle", "red", "center"), size=4)
+
+
+def test_caption_for_is_deterministic_text():
+    spec = SceneSpec("triangle", "blue", "bottom-right", seed=3)
+    assert caption_for(spec) == "a blue triangle at bottom-right"
+    spec2 = SceneSpec(
+        "circle", "red", "center", seed=3, second_shape="square", second_color="yellow"
+    )
+    assert caption_for(spec2) == "a red circle at center and a yellow square"
+
+
+def test_scene_spec_validation():
+    with pytest.raises(ValueError):
+        SceneSpec("hexagon", "red", "center")
+    with pytest.raises(ValueError):
+        SceneSpec("circle", "teal", "center")
+    with pytest.raises(ValueError):
+        SceneSpec("circle", "red", "middle")
+    with pytest.raises(ValueError):
+        SceneSpec("circle", "red", "center", second_shape="hexagon")

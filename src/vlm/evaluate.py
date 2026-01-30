@@ -67,3 +67,23 @@ def retrieval_at_k(
         raise ValueError("k must be positive")
     ranks = rank_matrix(query, gallery, targets)
     return float((ranks < k).float().mean().item())
+
+
+def mean_reciprocal_rank(
+    query: torch.Tensor,
+    gallery: torch.Tensor,
+    targets: Sequence[int] | None = None,
+) -> float:
+    """Mean of ``1 / (rank + 1)`` over queries."""
+    ranks = rank_matrix(query, gallery, targets)
+    return float((1.0 / (ranks + 1.0)).mean().item())
+
+
+def token_accuracy(
+    logits: torch.Tensor,
+    targets: torch.Tensor,
+    *,
+    pad_id: int = 0,
+) -> float:
+    """Teacher-forced token accuracy, padding excluded."""
+    return caption_accuracy(logits, targets, pad_id=pad_id)
