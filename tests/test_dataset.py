@@ -74,3 +74,35 @@ def test_scene_spec_validation():
         SceneSpec("circle", "red", "middle")
     with pytest.raises(ValueError):
         SceneSpec("circle", "red", "center", second_shape="hexagon")
+
+
+def test_random_spec_is_deterministic():
+    a = random_spec(11)
+    b = random_spec(11)
+    c = random_spec(12)
+    assert a == b
+    assert a != c
+    assert a.color in COLORS and a.shape in SHAPES
+
+
+def test_generate_sample_returns_consistent_caption():
+    image, caption, spec = generate_sample(5, size=10)
+    assert image.shape == (3, 10, 10)
+    assert caption == caption_for(spec)
+
+
+def test_dataset_items_and_captions(vocab):
+    from src.vlm.dataset import SyntheticCaptionDataset
+
+    dataset = SyntheticCaptionDataset(6, vocab, image_size=8, max_len=14, seed=3)
+    assert len(dataset) == 6
+    item = dataset[0]
+    assert item["image"].shape == (3, 8, 8)
+    assert item["ids"].dtype == torch.long
+    assert int(item["ids"][0]) == vocab.bos_id
+    assert int(item["ids"][-1]) == vocab.eos_id
+    assert dataset.captions()[0] == caption_for(dataset.spec_at(0))
+    with pytest.raises(ValueError):
+        SyntheticCaptionDataset(0, vocab)
+    with pytest.raises(ValueError):
+        SyntheticCaptionDataset(4, vocab, image_size=4)
