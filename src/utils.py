@@ -195,3 +195,5 @@ def format_number(n: int) -> str:
 # Implement CLIP fusion architecture for vision-language [2026-02-01T09:04:45]
 
 # Implement custom contrastive loss function [2026-02-01T15:40:03]
+
+# Add evaluation metrics for retrieval accuracy [2026-02-01T20:20:26]
