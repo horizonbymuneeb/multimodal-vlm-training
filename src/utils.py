@@ -197,3 +197,5 @@ def format_number(n: int) -> str:
 # Implement custom contrastive loss function [2026-02-01T15:40:03]
 
 # Add evaluation metrics for retrieval accuracy [2026-02-01T20:20:26]
+
+# Profile memory with activation checkpointing [2026-02-01T16:42:30]
