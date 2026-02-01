@@ -185,3 +185,34 @@ def summarise_metrics(metrics: dict[str, float]) -> str:
     """One-line summary for the CLI output."""
     parts = [f"{key}={value:.3f}" for key, value in sorted(metrics.items())]
     return " ".join(parts)
+
+
+def chance_level_retrieval(n: int, k: int = 1) -> float:
+    """Retrieval@k expected from random embeddings, for context in reports."""
+    if n <= 0 or k <= 0:
+        raise ValueError("n and k must be positive")
+    return float(min(1.0, k / n))
+
+
+def bootstrap_retrieval_ci(
+    query: torch.Tensor,
+    gallery: torch.Tensor,
+    *,
+    k: int = 1,
+    rounds: int = 200,
+    seed: int = 0,
+) -> dict[str, float]:
+    """Percentile bootstrap of retrieval@k, useful when the val set is tiny."""
+    if rounds <= 0:
+        raise ValueError("rounds must be positive")
+    n = query.shape[0]
+    rng = np.random.default_rng(seed)
+    values = []
+    for _ in range(rounds):
+        idx = rng.integers(0, n, size=n)
+        values.append(retrieval_at_k(query[idx], gallery[idx], k))
+    return {
+        "mean": float(np.mean(values)),
+        "low": float(np.percentile(values, 5)),
+        "high": float(np.percentile(values, 95)),
+    }

@@ -106,3 +106,35 @@ def test_dataset_items_and_captions(vocab):
         SyntheticCaptionDataset(0, vocab)
     with pytest.raises(ValueError):
         SyntheticCaptionDataset(4, vocab, image_size=4)
+
+
+def test_collate_pads_and_masks(vocab):
+    from src.vlm.dataset import SyntheticCaptionDataset
+
+    dataset = SyntheticCaptionDataset(4, vocab, image_size=8, max_len=14, seed=4)
+    batch = collate_captions([dataset[i] for i in range(4)], pad_id=vocab.pad_id)
+    assert batch["ids"].shape[0] == 4
+    assert batch["ids"].shape == batch["mask"].shape
+    lengths = [len(dataset[i]["ids"]) for i in range(4)]
+    assert batch["mask"].sum(dim=1).tolist() == lengths
+    assert (batch["ids"][batch["mask"] == 0] == vocab.pad_id).all()
+    with pytest.raises(ValueError):
+        collate_captions([])
+
+
+def test_dataloader_batches(vocab):
+    loader = make_dataloader(12, vocab, batch_size=4, image_size=8, max_len=14, seed=1)
+    batch = next(iter(loader))
+    assert batch["image"].shape == (4, 3, 8, 8)
+    assert batch["ids"].shape[0] == 4
+    with pytest.raises(ValueError):
+        make_dataloader(8, vocab, batch_size=0)
+
+
+def test_dataset_vocabulary_covers_every_caption():
+    vocab = dataset_vocabulary(40, image_size=8, seed=6)
+    unknown = vocab.token_to_id(UNK_TOKEN)
+    for i in range(40):
+        spec = random_spec(6 * 100_000 + i)
+        ids = vocab.encode(caption_for(spec))
+        assert unknown not in ids
