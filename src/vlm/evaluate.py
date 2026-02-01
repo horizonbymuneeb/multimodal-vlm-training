@@ -145,3 +145,43 @@ def evaluate_retrieval(
     metrics["i2t_mrr"] = mean_reciprocal_rank(image_emb, text_emb)
     metrics["t2i_mrr"] = mean_reciprocal_rank(text_emb, image_emb)
     return metrics
+
+
+def evaluate_captioning(
+    model,
+    loader: Iterable[dict[str, torch.Tensor]],
+    *,
+    pad_id: int = 0,
+) -> dict[str, float]:
+    """Token accuracy and mean caption cross-entropy."""
+    import torch.nn.functional as F
+
+    data = embed_loader(model, loader)
+    logits = data["logits"]
+    ids = data["ids"]
+    shifted_logits = logits[:, :-1, :].reshape(-1, logits.shape[-1])
+    shifted_targets = ids[:, 1:].reshape(-1)
+    loss = F.cross_entropy(shifted_logits, shifted_targets, ignore_index=pad_id)
+    return {
+        "token_accuracy": token_accuracy(logits, ids, pad_id=pad_id),
+        "caption_loss": float(loss.item()),
+    }
+
+
+def evaluate_all(
+    model,
+    loader: Iterable[dict[str, torch.Tensor]],
+    *,
+    k_values: Sequence[int] = (1, 3),
+    pad_id: int = 0,
+) -> dict[str, float]:
+    """Both halves of the objective in one dictionary."""
+    metrics = evaluate_retrieval(model, loader, k_values=k_values)
+    metrics.update(evaluate_captioning(model, loader, pad_id=pad_id))
+    return metrics
+
+
+def summarise_metrics(metrics: dict[str, float]) -> str:
+    """One-line summary for the CLI output."""
+    parts = [f"{key}={value:.3f}" for key, value in sorted(metrics.items())]
+    return " ".join(parts)
