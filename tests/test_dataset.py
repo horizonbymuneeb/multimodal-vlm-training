@@ -138,3 +138,12 @@ def test_dataset_vocabulary_covers_every_caption():
         spec = random_spec(6 * 100_000 + i)
         ids = vocab.encode(caption_for(spec))
         assert unknown not in ids
+
+
+def test_caption_token_budget():
+    budget = caption_token_budget(["a red circle at center", "a blue square"])
+    assert budget["min"] == 5.0   # 3 words + <bos> + <eos>
+    assert budget["max"] == 7.0   # 5 words + <bos> + <eos>
+    assert 5.0 <= budget["mean"] <= 7.0
+    with pytest.raises(ValueError):
+        caption_token_budget([])
