@@ -199,3 +199,5 @@ def format_number(n: int) -> str:
 # Add evaluation metrics for retrieval accuracy [2026-02-01T20:20:26]
 
 # Profile memory with activation checkpointing [2026-02-01T16:42:30]
+
+# Add data augmentation pipeline for images [2026-02-03T12:39:26]
