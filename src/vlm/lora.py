@@ -78,3 +78,52 @@ def iter_lora_modules(model: nn.Module) -> Iterable[tuple[str, LoRALinear]]:
     for name, module in model.named_modules():
         if isinstance(module, LoRALinear):
             yield name, module
+
+
+def apply_lora(
+    model: nn.Module,
+    targets: Sequence[str] = ("q_proj", "v_proj"),
+    *,
+    rank: int = 4,
+    alpha: float = 8.0,
+    seed: int | None = None,
+) -> int:
+    """Replace matching ``nn.Linear`` submodules with :class:`LoRALinear`.
+
+    A target matches when the last dotted component of the module name equals
+    one of ``targets``.  Returns the number of replaced layers.
+    """
+    if not targets:
+        raise ValueError("targets must not be empty")
+    replacements: list[tuple[nn.Module, str, LoRALinear]] = []
+    offset = 0
+    for parent_name, parent in model.named_modules():
+        for child_name, child in list(parent.named_children()):
+            if isinstance(child, nn.Linear) and child_name in targets:
+                layer_seed = None if seed is None else seed + offset
+                offset += 1
+                replacements.append(
+                    (parent, child_name, LoRALinear(child, rank=rank, alpha=alpha, seed=layer_seed))
+                )
+    for parent, child_name, layer in replacements:
+        setattr(parent, child_name, layer)
+    return len(replacements)
+
+
+def mark_only_lora_trainable(model: nn.Module) -> int:
+    """Freeze everything, then unfreeze only the adapter matrices."""
+    for param in model.parameters():
+        param.requires_grad = False
+    count = 0
+    for _, module in iter_lora_modules(model):
+        module.lora_a.requires_grad = True
+        module.lora_b.requires_grad = True
+        count += 2
+    return count
+
+
+def lora_parameters(model: nn.Module) -> list[nn.Parameter]:
+    params: list[nn.Parameter] = []
+    for _, module in iter_lora_modules(model):
+        params.extend([module.lora_a, module.lora_b])
+    return params
