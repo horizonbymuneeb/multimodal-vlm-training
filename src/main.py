@@ -318,3 +318,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2026-01-28T09:17:09]
 
 # Add early stopping with configurable patience [2026-01-28T20:16:01]
+
+# WIP: tuning learning rate schedule warmup [2026-02-06T19:17:52]
