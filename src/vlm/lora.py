@@ -127,3 +127,16 @@ def lora_parameters(model: nn.Module) -> list[nn.Parameter]:
     for _, module in iter_lora_modules(model):
         params.extend([module.lora_a, module.lora_b])
     return params
+
+
+def count_trainable(model: nn.Module) -> int:
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+def merge_lora(model: nn.Module) -> int:
+    """Merge every adapter into its base layer; returns the number merged."""
+    merged = 0
+    for _, module in iter_lora_modules(model):
+        module.merge()
+        merged += 1
+    return merged
