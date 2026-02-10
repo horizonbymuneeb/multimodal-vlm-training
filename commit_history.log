@@ -356,3 +356,4 @@
 [2026-02-04T14:12:57] Implement knowledge distillation wrapper class
 [2026-02-05T20:00:00] Add data augmentation pipeline for images
 [2026-02-06T19:17:52] WIP: tuning learning rate schedule warmup
+[2026-02-10T16:32:54] Fix weight decay application on biases

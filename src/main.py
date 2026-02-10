@@ -320,3 +320,5 @@ if __name__ == '__main__':
 # Add early stopping with configurable patience [2026-01-28T20:16:01]
 
 # WIP: tuning learning rate schedule warmup [2026-02-06T19:17:52]
+
+# Fix weight decay application on biases [2026-02-10T16:32:54]
