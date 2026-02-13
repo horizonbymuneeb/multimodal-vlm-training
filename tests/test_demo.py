@@ -7,3 +7,5 @@ import pytest
 import yaml
 
 from src.vlm.demo import describe_data, describe_losses, describe_model, main, run_demo
+
+REPO_ROOT = Path(__file__).resolve().parents[1]

@@ -140,3 +140,20 @@ def merge_lora(model: nn.Module) -> int:
         module.merge()
         merged += 1
     return merged
+
+
+def lora_state_dict(model: nn.Module) -> dict[str, torch.Tensor]:
+    """Only the adapter tensors, keyed by module name."""
+    payload: dict[str, torch.Tensor] = {}
+    for name, module in iter_lora_modules(model):
+        payload[f"{name}.lora_a"] = module.lora_a.detach().clone()
+        payload[f"{name}.lora_b"] = module.lora_b.detach().clone()
+    return payload
+
+
+def lora_rank_summary(model: nn.Module) -> dict[str, int]:
+    """Rank and parameter count per adapted layer."""
+    return {
+        name: module.lora_a.numel() + module.lora_b.numel()
+        for name, module in iter_lora_modules(model)
+    }
