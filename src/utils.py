@@ -207,3 +207,5 @@ def format_number(n: int) -> str:
 # Add data augmentation pipeline for images [2026-02-05T20:00:00]
 
 # Debug distributed training synchronization hang [2026-02-13T18:15:20]
+
+# Implement gradient accumulation for large batches [2026-02-16T12:01:45]
