@@ -322,3 +322,5 @@ if __name__ == '__main__':
 # WIP: tuning learning rate schedule warmup [2026-02-06T19:17:52]
 
 # Fix weight decay application on biases [2026-02-10T16:32:54]
+
+# Implement custom contrastive loss function [2026-02-18T20:42:30]
