@@ -55,3 +55,28 @@ def test_describe_model_and_losses():
     losses = describe_losses(bundle)
     assert losses["untrained_infonce"] > 0.0
     assert 0.0 <= losses["untrained_i2t@1"] <= 1.0
+
+
+def test_run_demo_structure():
+    report = run_demo(demo_config())
+    assert set(report) == {"data", "model", "losses", "train", "val", "val_summary"}
+    assert report["train"]["last_loss"] is not None
+    assert 0.0 <= report["val"]["i2t@1"] <= 1.0
+    assert "i2t@1" in report["val_summary"]
+
+
+def test_main_writes_json(tmp_path, capsys):
+    config_path = tmp_path / "config.yaml"
+    config_path.write_text(yaml.safe_dump(demo_config()))
+    out = tmp_path / "demo.json"
+    assert main(["--config", str(config_path), "--out", str(out)]) == 0
+    payload = json.loads(out.read_text())
+    assert "model" in payload
+    assert "parameters" in capsys.readouterr().out
+
+
+def test_repo_config_runs_through_demo_data_section():
+    config = yaml.safe_load((REPO_ROOT / "config.yaml").read_text())
+    report = describe_data(config)
+    assert report["samples"] == 80
+    assert report["image_shape"] == [3, 16, 16]

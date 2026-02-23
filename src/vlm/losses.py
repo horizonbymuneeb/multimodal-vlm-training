@@ -61,3 +61,52 @@ def symmetric_infonce(
     forward = F.cross_entropy(logits, targets)
     backward = F.cross_entropy(logits.transpose(0, 1), targets)
     return 0.5 * (forward + backward)
+
+
+def caption_cross_entropy(
+    logits: torch.Tensor,
+    targets: torch.Tensor,
+    *,
+    pad_id: int = 0,
+    label_smoothing: float = 0.0,
+) -> torch.Tensor:
+    """Teacher-forced next-token cross-entropy, ignoring padding.
+
+    ``logits`` is ``(N, T, V)`` and ``targets`` is ``(N, T)``: position ``t``
+    predicts ``targets[t + 1]``, so the last logit and the first target are
+    dropped.
+    """
+    if logits.ndim != 3:
+        raise ValueError(f"logits must be (N, T, V), got {tuple(logits.shape)}")
+    if targets.ndim != 2 or targets.shape[0] != logits.shape[0]:
+        raise ValueError("targets must be (N, T) with the same batch size")
+    if targets.shape[1] > logits.shape[1]:
+        raise ValueError("targets are longer than the logits sequence")
+    if not 0.0 <= label_smoothing < 1.0:
+        raise ValueError("label_smoothing must be in [0, 1)")
+    shift_logits = logits[:, :-1, :].reshape(-1, logits.shape[-1])
+    shift_targets = targets[:, 1:].reshape(-1)
+    return F.cross_entropy(
+        shift_logits,
+        shift_targets,
+        ignore_index=pad_id,
+        label_smoothing=label_smoothing,
+    )
+
+
+def caption_accuracy(
+    logits: torch.Tensor,
+    targets: torch.Tensor,
+    *,
+    pad_id: int = 0,
+) -> float:
+    """Fraction of non-pad next-token predictions that are correct."""
+    if logits.ndim != 3:
+        raise ValueError("logits must be (N, T, V)")
+    predictions = logits[:, :-1, :].argmax(dim=-1)
+    gold = targets[:, 1:]
+    mask = gold != pad_id
+    if mask.sum() == 0:
+        return 0.0
+    correct = (predictions == gold) & mask
+    return float(correct.sum().item() / mask.sum().item())
