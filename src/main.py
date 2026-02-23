@@ -324,3 +324,5 @@ if __name__ == '__main__':
 # Fix weight decay application on biases [2026-02-10T16:32:54]
 
 # Implement custom contrastive loss function [2026-02-18T20:42:30]
+
+# Add evaluation metrics for retrieval accuracy [2026-02-23T12:39:29]
