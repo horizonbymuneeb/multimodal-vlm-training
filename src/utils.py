@@ -209,3 +209,5 @@ def format_number(n: int) -> str:
 # Debug distributed training synchronization hang [2026-02-13T18:15:20]
 
 # Implement gradient accumulation for large batches [2026-02-16T12:01:45]
+
+# Update gradient checkpointing for memory savings [2026-02-23T12:48:27]
