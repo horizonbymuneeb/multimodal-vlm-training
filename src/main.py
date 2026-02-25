@@ -328,3 +328,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2026-02-23T12:39:29]
 
 # Add data augmentation pipeline for images [2026-02-25T17:24:42]
+
+# Fix weight decay application on biases [2026-02-25T09:11:19]
