@@ -110,3 +110,15 @@ def caption_accuracy(
         return 0.0
     correct = (predictions == gold) & mask
     return float(correct.sum().item() / mask.sum().item())
+
+
+def combine_losses(
+    contrastive: torch.Tensor,
+    caption: torch.Tensor,
+    *,
+    caption_weight: float = 0.5,
+) -> torch.Tensor:
+    """Weighted sum of the two objectives."""
+    if caption_weight < 0:
+        raise ValueError("caption_weight must be non-negative")
+    return contrastive + caption_weight * caption
