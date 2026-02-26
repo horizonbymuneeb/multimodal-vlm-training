@@ -122,3 +122,28 @@ def combine_losses(
     if caption_weight < 0:
         raise ValueError("caption_weight must be non-negative")
     return contrastive + caption_weight * caption
+
+
+def batch_retrieval_accuracy(image_emb: torch.Tensor, text_emb: torch.Tensor) -> float:
+    """Fraction of pairs whose best match is the correct one (batch of 1 = 1.0)."""
+    if image_emb.shape[0] != text_emb.shape[0]:
+        raise ValueError("batches must match")
+    with torch.no_grad():
+        sim = l2_normalize(image_emb) @ l2_normalize(text_emb).transpose(0, 1)
+        predicted = sim.argmax(dim=1)
+        gold = torch.arange(sim.shape[0], device=sim.device)
+        return float((predicted == gold).float().mean().item())
+
+
+def loss_report(
+    contrastive: float,
+    caption: float,
+    *,
+    caption_weight: float = 0.5,
+) -> dict[str, float]:
+    """The numbers logged per step, in one place so train/eval agree."""
+    return {
+        "contrastive": float(contrastive),
+        "caption": float(caption),
+        "total": float(contrastive + caption_weight * caption),
+    }
