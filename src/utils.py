@@ -211,3 +211,5 @@ def format_number(n: int) -> str:
 # Implement gradient accumulation for large batches [2026-02-16T12:01:45]
 
 # Update gradient checkpointing for memory savings [2026-02-23T12:48:27]
+
+# Fix tokenizer encoding for special characters [2026-02-26T15:04:21]
