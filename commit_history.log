@@ -367,3 +367,4 @@
 [2026-02-26T15:04:21] Fix tokenizer encoding for special characters
 [2026-03-02T15:59:24] Profile memory with activation checkpointing
 [2026-03-02T10:11:03] Implement CLIP fusion architecture for vision-language
+[2026-03-02T17:41:37] Add evaluation metrics for retrieval accuracy
