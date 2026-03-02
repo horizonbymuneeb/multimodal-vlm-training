@@ -330,3 +330,5 @@ if __name__ == '__main__':
 # Add data augmentation pipeline for images [2026-02-25T17:24:42]
 
 # Fix weight decay application on biases [2026-02-25T09:11:19]
+
+# Profile memory with activation checkpointing [2026-03-02T15:59:24]
