@@ -40,3 +40,36 @@ def test_retrieval_at_k_perfect_for_aligned_embeddings():
     assert mean_reciprocal_rank(a, b) == pytest.approx(1.0)
     with pytest.raises(ValueError):
         retrieval_at_k(a, b, 0)
+
+
+def distractor_gallery():
+    """Three queries where one gold item is beaten by a closer distractor."""
+    query = torch.tensor([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+    gallery = torch.tensor(
+        [
+            [1.0, 0.02],  # distractor: closer to query 0 than its gold item
+            [0.9, 0.1],   # gold for query 0 -> rank 1
+            [0.0, 1.0],   # gold for query 1 -> rank 0
+            [1.0, 1.0],   # gold for query 2 -> rank 0
+        ]
+    )
+    return query, gallery, [1, 2, 3]
+
+
+def test_rank_matrix_counts_closer_items():
+    query, gallery, targets = distractor_gallery()
+    assert rank_matrix(query, gallery, targets).tolist() == [1, 0, 0]
+    # Without explicit targets the paired 1:1 mapping is required.
+    with pytest.raises(ValueError):
+        rank_matrix(query, gallery)
+
+
+def test_retrieval_at_k_and_mrr_with_distractors():
+    query, gallery, targets = distractor_gallery()
+    assert retrieval_at_k(query, gallery, 1, targets=targets) == pytest.approx(2 / 3)
+    assert retrieval_at_k(query, gallery, 2, targets=targets) == pytest.approx(1.0)
+    assert mean_reciprocal_rank(query, gallery, targets) == pytest.approx((0.5 + 1.0 + 1.0) / 3)
+    with pytest.raises(ValueError):
+        retrieval_at_k(query, gallery, 1, targets=[0, 1])
+    with pytest.raises(ValueError):
+        retrieval_at_k(query, gallery, 1, targets=[0, 1, 9])

@@ -162,3 +162,20 @@ def build_model(
     if seed is not None:
         torch.manual_seed(seed)
     return SmallVLM(cfg)
+
+
+def trainable_parameters(model: SmallVLM) -> list[nn.Parameter]:
+    """Parameters that the optimiser should see (projection + adapters)."""
+    return [p for p in model.parameters() if p.requires_grad]
+
+
+def parameter_summary(model: SmallVLM) -> dict[str, int]:
+    """Total / trainable / frozen parameter counts for the README and tests."""
+    total = sum(p.numel() for p in model.parameters())
+    trainable = count_trainable(model)
+    return {
+        "total": total,
+        "trainable": trainable,
+        "frozen": total - trainable,
+        "lora_layers": model.lora_layers(),
+    }
