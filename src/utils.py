@@ -215,3 +215,5 @@ def format_number(n: int) -> str:
 # Fix tokenizer encoding for special characters [2026-02-26T15:04:21]
 
 # Implement CLIP fusion architecture for vision-language [2026-03-02T10:11:03]
+
+# Implement gradient accumulation for large batches [2026-03-03T19:17:15]
