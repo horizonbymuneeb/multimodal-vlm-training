@@ -369,3 +369,4 @@
 [2026-03-02T10:11:03] Implement CLIP fusion architecture for vision-language
 [2026-03-02T17:41:37] Add evaluation metrics for retrieval accuracy
 [2026-03-03T19:17:15] Implement gradient accumulation for large batches
+[2026-03-05T10:58:49] Fix batch norm sync across distributed GPUs
