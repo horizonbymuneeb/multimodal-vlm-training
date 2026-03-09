@@ -179,3 +179,32 @@ def parameter_summary(model: SmallVLM) -> dict[str, int]:
         "frozen": total - trainable,
         "lora_layers": model.lora_layers(),
     }
+
+
+def save_checkpoint(model: SmallVLM, path: str | Path) -> Path:
+    """Save adapters, projection weights and the config needed to rebuild."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "config": model.cfg.to_dict(),
+        "state_dict": {key: value.detach().clone() for key, value in model.state_dict().items()},
+    }
+    torch.save(payload, path)
+    return path
+
+
+def load_checkpoint(path: str | Path) -> tuple[SmallVLM, dict]:
+    """Rebuild a model and restore adapters + projection weights."""
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(f"no checkpoint at {path}")
+    payload = torch.load(path, map_location="cpu", weights_only=False)
+    cfg = VLMConfig.from_dict(payload["config"])
+    model = SmallVLM(cfg)
+    model.load_state_dict(payload["state_dict"])
+    model.eval()
+    return model, payload["config"]
+
+
+def frozen_parameter_names(model: SmallVLM) -> Sequence[str]:
+    return [name for name, param in model.named_parameters() if not param.requires_grad]
