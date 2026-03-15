@@ -336,3 +336,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2026-03-02T17:41:37]
 
 # Fix batch norm sync across distributed GPUs [2026-03-05T10:58:49]
+
+# Fix weight decay application on biases [2026-03-15T19:36:36]
