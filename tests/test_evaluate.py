@@ -73,3 +73,44 @@ def test_retrieval_at_k_and_mrr_with_distractors():
         retrieval_at_k(query, gallery, 1, targets=[0, 1])
     with pytest.raises(ValueError):
         retrieval_at_k(query, gallery, 1, targets=[0, 1, 9])
+
+
+def test_token_accuracy_perfect_and_padded():
+    # Position t predicts targets[t + 1]; the final pad target is ignored.
+    logits = torch.zeros(1, 4, 5)
+    targets = torch.tensor([[1, 2, 3, 0]])
+    logits[0, 0, 2] = 5.0
+    logits[0, 1, 3] = 5.0
+    assert token_accuracy(logits, targets, pad_id=0) == pytest.approx(1.0)
+    wrong = torch.zeros(1, 4, 5)
+    wrong[0, 0, 1] = 5.0
+    wrong[0, 1, 1] = 5.0
+    assert token_accuracy(wrong, targets, pad_id=0) == pytest.approx(0.0)
+
+
+def test_embed_loader_and_evaluate_all(model, loader):
+    data = embed_loader(model, loader)
+    assert data["image_emb"].shape[0] == len(loader.dataset)
+    assert data["logits"].shape[0] == len(loader.dataset)
+    metrics = evaluate_all(model, loader, k_values=(1, 2))
+    assert set(metrics) == {
+        "i2t@1",
+        "i2t@2",
+        "t2i@1",
+        "t2i@2",
+        "i2t_mrr",
+        "t2i_mrr",
+        "token_accuracy",
+        "caption_loss",
+    }
+    assert all(0.0 <= metrics[key] <= 1.0 for key in ("i2t@1", "t2i@1", "token_accuracy"))
+    assert metrics["caption_loss"] > 0.0
+
+
+def test_evaluate_retrieval_and_captioning_shapes(model, loader):
+    retrieval = evaluate_retrieval(model, loader, k_values=(1,))
+    assert set(retrieval) == {"i2t@1", "t2i@1", "i2t_mrr", "t2i_mrr"}
+    captioning = evaluate_captioning(model, loader)
+    assert set(captioning) == {"token_accuracy", "caption_loss"}
+    with pytest.raises(ValueError):
+        evaluate_retrieval(model, loader, k_values=())
