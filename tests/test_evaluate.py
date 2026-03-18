@@ -114,3 +114,23 @@ def test_evaluate_retrieval_and_captioning_shapes(model, loader):
     assert set(captioning) == {"token_accuracy", "caption_loss"}
     with pytest.raises(ValueError):
         evaluate_retrieval(model, loader, k_values=())
+
+
+def test_chance_level_and_summary():
+    assert chance_level_retrieval(10, 1) == pytest.approx(0.1)
+    assert chance_level_retrieval(10, 20) == pytest.approx(1.0)
+    with pytest.raises(ValueError):
+        chance_level_retrieval(0)
+    text = summarise_metrics({"b": 0.5, "a": 1.0})
+    assert text == "a=1.000 b=0.500"
+
+
+def test_bootstrap_ci_brackets_the_point_estimate():
+    a, b = aligned()
+    ci = bootstrap_retrieval_ci(a, b, k=1, rounds=50, seed=0)
+    assert ci["low"] <= ci["mean"] <= ci["high"]
+    # Ties are counted as hits, so a perfect gallery stays perfect under resampling.
+    assert ci["mean"] == pytest.approx(1.0)
+    assert ci["low"] == pytest.approx(1.0)
+    with pytest.raises(ValueError):
+        bootstrap_retrieval_ci(a, b, rounds=0)
