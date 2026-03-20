@@ -50,3 +50,22 @@ def l2_normalize(x: torch.Tensor, eps: float = 1e-8) -> torch.Tensor:
         raise ValueError("eps must be positive")
     norm = x.norm(dim=-1, keepdim=True).clamp_min(eps)
     return x / norm
+
+
+def build_projection(
+    in_dim: int,
+    out_dim: int,
+    *,
+    hidden_dim: int | None = None,
+    dropout: float = 0.0,
+    seed: int | None = None,
+) -> ProjectionHead:
+    """Build the head with deterministic initialisation when ``seed`` is given."""
+    if seed is not None:
+        torch.manual_seed(seed)
+    return ProjectionHead(in_dim, out_dim, hidden_dim=hidden_dim, dropout=dropout)
+
+
+def project_features(head: ProjectionHead, features: torch.Tensor) -> torch.Tensor:
+    """Apply the head without tracking gradients on the frozen encoder output."""
+    return head(features)
