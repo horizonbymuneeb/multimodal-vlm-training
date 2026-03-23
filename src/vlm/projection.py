@@ -69,3 +69,32 @@ def build_projection(
 def project_features(head: ProjectionHead, features: torch.Tensor) -> torch.Tensor:
     """Apply the head without tracking gradients on the frozen encoder output."""
     return head(features)
+
+
+def cosine_similarity_matrix(a: torch.Tensor, b: torch.Tensor) -> torch.Tensor:
+    """Pairwise cosine similarities between two ``(N, D)`` / ``(M, D)`` batches."""
+    if a.ndim != 2 or b.ndim != 2:
+        raise ValueError("expected 2-D embeddings")
+    if a.shape[1] != b.shape[1]:
+        raise ValueError("embeddings must share the feature dimension")
+    return l2_normalize(a) @ l2_normalize(b).transpose(0, 1)
+
+
+def alignment_loss(image_emb: torch.Tensor, text_emb: torch.Tensor) -> torch.Tensor:
+    """Mean squared distance between paired embeddings (a cheap auxiliary term).
+
+    InfoNCE only cares about relative order; this term pulls matched pairs
+    closer in absolute terms, which helps retrieval at small batch sizes.
+    """
+    if image_emb.shape != text_emb.shape:
+        raise ValueError("image and text embeddings must have the same shape")
+    return ((l2_normalize(image_emb) - l2_normalize(text_emb)) ** 2).sum(dim=-1).mean()
+
+
+def projection_parameters(head: ProjectionHead) -> dict[str, int]:
+    """Parameter counts per linear layer, for the README table and tests."""
+    counts = {}
+    for name, module in head.named_modules():
+        if isinstance(module, nn.Linear):
+            counts[name] = sum(p.numel() for p in module.parameters())
+    return counts
