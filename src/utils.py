@@ -225,3 +225,5 @@ def format_number(n: int) -> str:
 # Fix batch norm sync across distributed GPUs [2026-03-18T20:39:16]
 
 # Optimize mixed-precision training stability [2026-03-23T12:47:26]
+
+# Fix numerical stability in softmax computation [2026-03-26T19:06:50]
