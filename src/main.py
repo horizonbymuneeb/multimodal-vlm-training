@@ -340,3 +340,5 @@ if __name__ == '__main__':
 # Fix weight decay application on biases [2026-03-15T19:36:36]
 
 # Implement custom contrastive loss function [2026-03-20T15:04:14]
+
+# Add LoRA layer to vision encoder for efficiency [2026-03-26T15:10:49]
