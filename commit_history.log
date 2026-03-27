@@ -378,3 +378,4 @@
 [2026-03-23T12:47:26] Optimize mixed-precision training stability
 [2026-03-26T19:06:50] Fix numerical stability in softmax computation
 [2026-03-26T15:10:49] Add LoRA layer to vision encoder for efficiency
+[2026-03-27T15:02:57] WIP: benchmarking throughput versus accuracy
