@@ -379,3 +379,4 @@
 [2026-03-26T19:06:50] Fix numerical stability in softmax computation
 [2026-03-26T15:10:49] Add LoRA layer to vision encoder for efficiency
 [2026-03-27T15:02:57] WIP: benchmarking throughput versus accuracy
+[2026-04-07T14:12:07] Add evaluation metrics for retrieval accuracy
