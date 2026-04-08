@@ -344,3 +344,5 @@ if __name__ == '__main__':
 # Add LoRA layer to vision encoder for efficiency [2026-03-26T15:10:49]
 
 # WIP: benchmarking throughput versus accuracy [2026-03-27T15:02:57]
+
+# Debug distributed training synchronization hang [2026-04-08T19:13:55]
