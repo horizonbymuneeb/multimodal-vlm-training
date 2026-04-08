@@ -92,3 +92,97 @@ class MultiHeadAttention(nn.Module):
         out, weights = scaled_dot_product(query, key, value, mask)
         out = out.transpose(1, 2).contiguous().view(x.shape[0], x.shape[1], self.dim)
         return self.out_proj(self.dropout(out)), weights
+
+
+class DecoderBlock(nn.Module):
+    """Pre-norm block: causal self-attention, optional cross-attention, MLP."""
+
+    def __init__(self, dim: int, n_heads: int, *, dropout: float = 0.0, cross: bool = True) -> None:
+        super().__init__()
+        self.self_attn = MultiHeadAttention(dim, n_heads, dropout=dropout)
+        self.norm1 = nn.LayerNorm(dim)
+        self.cross_attn = MultiHeadAttention(dim, n_heads, dropout=dropout) if cross else None
+        self.norm2 = nn.LayerNorm(dim) if cross else None
+        self.mlp = nn.Sequential(
+            nn.Linear(dim, dim * 4),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.Linear(dim * 4, dim),
+        )
+        self.norm3 = nn.LayerNorm(dim)
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        *,
+        mask: torch.Tensor | None = None,
+        memory: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, dict[str, torch.Tensor]]:
+        attended, self_weights = self.self_attn(self.norm1(x), mask=mask)
+        x = x + attended
+        weights = {"self": self_weights}
+        if self.cross_attn is not None and memory is not None:
+            cross, cross_weights = self.cross_attn(self.norm2(x), memory=memory)
+            x = x + cross
+            weights["cross"] = cross_weights
+        x = x + self.mlp(self.norm3(x))
+        return x, weights
+
+
+@dataclass(frozen=True)
+class TextConfig:
+    vocab_size: int
+    dim: int = 48
+    n_heads: int = 4
+    n_layers: int = 1
+    max_len: int = 12
+    dropout: float = 0.0
+
+    def __post_init__(self) -> None:
+        if self.vocab_size < 8:
+            raise ValueError("vocab_size looks too small")
+        if self.dim % self.n_heads != 0:
+            raise ValueError("dim must be divisible by n_heads")
+        if self.max_len < 2:
+            raise ValueError("max_len must be at least 2")
+
+
+class TextDecoder(nn.Module):
+    """Token embedding + sinusoidal positions + decoder blocks + LM head."""
+
+    def __init__(self, cfg: TextConfig) -> None:
+        super().__init__()
+        self.cfg = cfg
+        self.embed = nn.Embedding(cfg.vocab_size, cfg.dim)
+        self.register_buffer(
+            "pos", positional_encoding(cfg.max_len, cfg.dim), persistent=False
+        )
+        self.blocks = nn.ModuleList(
+            [DecoderBlock(cfg.dim, cfg.n_heads, dropout=cfg.dropout) for _ in range(cfg.n_layers)]
+        )
+        self.norm = nn.LayerNorm(cfg.dim)
+        self.lm_head = nn.Linear(cfg.dim, cfg.vocab_size, bias=False)
+
+    def forward(
+        self,
+        ids: torch.Tensor,
+        *,
+        memory: torch.Tensor | None = None,
+    ) -> dict[str, torch.Tensor]:
+        """Logits for ``(N, T)`` ids, optionally conditioned on image memory."""
+        if ids.ndim != 2:
+            raise ValueError(f"ids must be (N, T), got {tuple(ids.shape)}")
+        if ids.shape[1] > self.cfg.max_len:
+            raise ValueError(f"sequence length {ids.shape[1]} exceeds max_len {self.cfg.max_len}")
+        x = self.embed(ids) + self.pos[: ids.shape[1]]
+        mask = causal_mask(ids.shape[1])
+        attentions: dict[str, torch.Tensor] = {}
+        for index, block in enumerate(self.blocks):
+            x, weights = block(x, mask=mask, memory=memory)
+            for key, value in weights.items():
+                attentions[f"{index}.{key}"] = value
+        return {"logits": self.lm_head(self.norm(x)), "hidden": x, "attentions": attentions}
+
+    def embed_tokens(self, ids: torch.Tensor) -> torch.Tensor:
+        """Embedding without positions, used to check the shared space."""
+        return self.embed(ids)
