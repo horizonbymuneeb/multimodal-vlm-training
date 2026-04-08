@@ -39,3 +39,41 @@ def test_lora_only_trains_the_adapter():
     assert layer.lora_a.requires_grad and layer.lora_b.requires_grad
     assert count_trainable(layer) == layer.lora_a.numel() + layer.lora_b.numel()
     assert count_trainable(layer) == 2 * 6 + 5 * 2
+
+
+def test_lora_update_matches_the_hand_formula():
+    base = base_layer()
+    layer = LoRALinear(base, rank=2, alpha=4.0)
+    with torch.no_grad():
+        layer.lora_a.copy_(torch.ones_like(layer.lora_a))
+        layer.lora_b.copy_(torch.ones_like(layer.lora_b))
+    x = torch.randn(2, 6)
+    expected = base(x) + 2.0 * (x @ torch.ones(6, 2)) @ torch.ones(2, 5)
+    assert torch.allclose(layer(x), expected, atol=1e-5)
+
+
+def test_merge_and_unmerge_preserve_outputs():
+    base = base_layer()
+    layer = LoRALinear(base, rank=2, alpha=4.0)
+    with torch.no_grad():
+        layer.lora_b.normal_()
+    x = torch.randn(3, 6)
+    before = layer(x).clone()
+    layer.merge()
+    assert layer.merged
+    assert torch.allclose(layer(x), before, atol=1e-5)
+    weight_after_merge = layer.base.weight.detach().clone()
+    layer.merge()  # idempotent
+    assert torch.allclose(layer.base.weight, weight_after_merge)
+    layer.unmerge()
+    assert not layer.merged
+    assert torch.allclose(layer(x), before, atol=1e-5)
+
+
+def test_lora_validation():
+    with pytest.raises(ValueError):
+        LoRALinear(base_layer(), rank=0)
+    with pytest.raises(ValueError):
+        LoRALinear(base_layer(), rank=2, alpha=0.0)
+    with pytest.raises(ValueError):
+        LoRALinear(base_layer(2, 2), rank=4)
