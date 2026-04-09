@@ -348,3 +348,5 @@ if __name__ == '__main__':
 # Debug distributed training synchronization hang [2026-04-08T19:13:55]
 
 # Debug distributed training synchronization hang [2026-04-09T10:40:22]
+
+# Add early stopping with configurable patience [2026-04-09T19:16:04]
