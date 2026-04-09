@@ -77,3 +77,41 @@ def test_lora_validation():
         LoRALinear(base_layer(), rank=2, alpha=0.0)
     with pytest.raises(ValueError):
         LoRALinear(base_layer(2, 2), rank=4)
+
+
+def test_apply_lora_replaces_decoder_projections():
+    cfg = TextConfig(vocab_size=20, dim=8, n_heads=2, n_layers=2, max_len=6)
+    decoder = TextDecoder(cfg)
+    replaced = apply_lora(decoder, targets=("q_proj", "v_proj"), rank=2, alpha=4.0, seed=1)
+    # Each decoder block has self- and cross-attention, each with q_proj/v_proj.
+    expected = cfg.n_layers * 2 * 2
+    assert replaced == expected
+    names = [name for name, _ in iter_lora_modules(decoder)]
+    assert len(names) == expected
+    assert all(name.endswith(("q_proj", "v_proj")) for name in names)
+    with pytest.raises(ValueError):
+        apply_lora(decoder, targets=())
+
+
+def test_mark_only_lora_trainable_freezes_everything_else():
+    cfg = TextConfig(vocab_size=20, dim=8, n_heads=2, n_layers=1, max_len=6)
+    decoder = TextDecoder(cfg)
+    apply_lora(decoder, targets=("q_proj", "v_proj"), rank=2)
+    modules = list(iter_lora_modules(decoder))
+    marked = mark_only_lora_trainable(decoder)
+    assert marked == 2 * len(modules)
+    trainable = [name for name, p in decoder.named_parameters() if p.requires_grad]
+    assert len(trainable) == 2 * len(modules)
+    assert all("lora_" in name for name in trainable)
+    assert len(lora_parameters(decoder)) == 2 * len(modules)
+
+
+def test_merge_lora_merges_all_layers_and_reports_summary():
+    cfg = TextConfig(vocab_size=20, dim=8, n_heads=2, n_layers=1, max_len=6)
+    decoder = TextDecoder(cfg)
+    apply_lora(decoder, targets=("q_proj", "v_proj"), rank=2)
+    summary = lora_rank_summary(decoder)
+    assert len(summary) == 2 * len(list(iter_lora_modules(decoder))) // 2
+    assert all(value == 2 * (8 + 8) for value in summary.values())
+    assert merge_lora(decoder) == len(summary)
+    assert all(module.merged for _, module in iter_lora_modules(decoder))

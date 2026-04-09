@@ -186,3 +186,10 @@ class TextDecoder(nn.Module):
     def embed_tokens(self, ids: torch.Tensor) -> torch.Tensor:
         """Embedding without positions, used to check the shared space."""
         return self.embed(ids)
+
+
+def next_token_logits(logits: torch.Tensor) -> torch.Tensor:
+    """Logits used for teacher-forced next-token prediction, ``(N, T-1, V)``."""
+    if logits.ndim != 3:
+        raise ValueError("logits must be (N, T, V)")
+    return logits[:, :-1, :]
