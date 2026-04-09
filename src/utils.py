@@ -231,3 +231,5 @@ def format_number(n: int) -> str:
 # Add evaluation metrics for retrieval accuracy [2026-04-07T14:12:07]
 
 # Fix batch norm sync across distributed GPUs [2026-04-08T12:47:32]
+
+# Add model parallelism for large architectures [2026-04-09T18:02:52]
