@@ -115,3 +115,13 @@ def test_merge_lora_merges_all_layers_and_reports_summary():
     assert all(value == 2 * (8 + 8) for value in summary.values())
     assert merge_lora(decoder) == len(summary)
     assert all(module.merged for _, module in iter_lora_modules(decoder))
+
+
+def test_lora_state_dict_contains_adapter_tensors():
+    cfg = TextConfig(vocab_size=20, dim=8, n_heads=2, n_layers=1, max_len=6)
+    decoder = TextDecoder(cfg)
+    apply_lora(decoder, targets=("q_proj",), rank=2)
+    payload = lora_state_dict(decoder)
+    assert len(payload) == 2 * len(list(iter_lora_modules(decoder)))
+    assert all(key.endswith(("lora_a", "lora_b")) for key in payload)
+    assert all(tensor.requires_grad is False for tensor in payload.values())
