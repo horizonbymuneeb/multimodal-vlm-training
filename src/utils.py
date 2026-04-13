@@ -235,3 +235,5 @@ def format_number(n: int) -> str:
 # Add model parallelism for large architectures [2026-04-09T18:02:52]
 
 # Fix batch norm sync across distributed GPUs [2026-04-12T19:48:20]
+
+# Add early stopping with configurable patience [2026-04-13T18:50:50]
