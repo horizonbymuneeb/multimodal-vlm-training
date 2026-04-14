@@ -237,3 +237,5 @@ def format_number(n: int) -> str:
 # Fix batch norm sync across distributed GPUs [2026-04-12T19:48:20]
 
 # Add early stopping with configurable patience [2026-04-13T18:50:50]
+
+# Profile memory with activation checkpointing [2026-04-14T13:22:41]
