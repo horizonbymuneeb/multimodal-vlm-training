@@ -18,3 +18,6 @@ BOS_TOKEN = "<bos>"
 EOS_TOKEN = "<eos>"
 UNK_TOKEN = "<unk>"
 SPECIAL_TOKENS: tuple[str, ...] = (PAD_TOKEN, BOS_TOKEN, EOS_TOKEN, UNK_TOKEN)
+
+PAD_ID = 0
+BOS_ID = 1
