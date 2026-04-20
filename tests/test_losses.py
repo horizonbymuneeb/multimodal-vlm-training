@@ -40,3 +40,29 @@ def test_info_nce_is_small_for_aligned_pairs():
     assert loss.item() < 0.05
     shuffled = info_nce_loss(a, torch.roll(b, shifts=1, dims=0), temperature=0.07)
     assert shuffled.item() > loss.item()
+
+
+def test_info_nce_single_pair_is_zero():
+    a = torch.randn(1, 6)
+    loss = info_nce_loss(a, a.clone(), temperature=0.07)
+    assert loss.item() == pytest.approx(0.0, abs=1e-6)
+
+
+def test_symmetric_infonce_is_the_average_of_both_directions():
+    a, b = aligned_pair()
+    logits = temperature_logits(a, b, 0.2)
+    targets = torch.arange(4)
+    expected = 0.5 * (F.cross_entropy(logits, targets) + F.cross_entropy(logits.T, targets))
+    got = symmetric_infonce(a, b, temperature=0.2)
+    assert got.item() == pytest.approx(expected.item(), rel=1e-6)
+    with pytest.raises(ValueError):
+        symmetric_infonce(torch.randn(1, 4), torch.randn(1, 4))
+
+
+def test_caption_cross_entropy_matches_manual_shift():
+    torch.manual_seed(0)
+    logits = torch.randn(2, 5, 7)
+    targets = torch.tensor([[1, 2, 3, 4, 5], [1, 6, 0, 0, 0]])
+    manual = F.cross_entropy(logits[:, :-1, :].reshape(-1, 7), targets[:, 1:].reshape(-1), ignore_index=0)
+    got = caption_cross_entropy(logits, targets, pad_id=0)
+    assert got.item() == pytest.approx(manual.item(), rel=1e-6)

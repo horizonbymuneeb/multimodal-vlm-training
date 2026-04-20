@@ -139,3 +139,16 @@ def pad_sequences(
         padded.append([*seq, *([pad_id] * (width - len(seq)))])
         mask.append([*([1] * len(seq)), *([0] * (width - len(seq)))])
     return padded, mask
+
+
+def truncate(ids: Sequence[int], max_len: int, *, eos_id: int = EOS_ID) -> list[int]:
+    """Keep ``max_len`` ids but always preserve the final ``<eos>``."""
+    if max_len < 2:
+        raise ValueError("max_len must be at least 2")
+    if len(ids) <= max_len:
+        return list(ids)
+    return [*ids[: max_len - 1], eos_id]
+
+
+def decode_batch(vocab: Vocab, batch: Sequence[Sequence[int]]) -> list[str]:
+    return [vocab.decode(row) for row in batch]
