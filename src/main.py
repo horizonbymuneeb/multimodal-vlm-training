@@ -356,3 +356,5 @@ if __name__ == '__main__':
 # Add data augmentation pipeline for images [2026-04-15T10:33:03]
 
 # Implement gradient accumulation for large batches [2026-04-17T11:46:21]
+
+# Add evaluation metrics for retrieval accuracy [2026-04-22T18:34:27]
