@@ -243,3 +243,5 @@ def format_number(n: int) -> str:
 # Add model parallelism for large architectures [2026-04-15T14:21:20]
 
 # Profile memory with activation checkpointing [2026-04-20T10:11:58]
+
+# Debug distributed training synchronization hang [2026-04-23T15:54:39]
