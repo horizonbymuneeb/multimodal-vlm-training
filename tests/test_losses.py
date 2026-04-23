@@ -66,3 +66,41 @@ def test_caption_cross_entropy_matches_manual_shift():
     manual = F.cross_entropy(logits[:, :-1, :].reshape(-1, 7), targets[:, 1:].reshape(-1), ignore_index=0)
     got = caption_cross_entropy(logits, targets, pad_id=0)
     assert got.item() == pytest.approx(manual.item(), rel=1e-6)
+
+
+def test_caption_cross_entropy_validation_and_smoothing():
+    logits = torch.randn(1, 4, 6)
+    targets = torch.tensor([[1, 2, 3, 4]])
+    smooth = caption_cross_entropy(logits, targets, pad_id=0, label_smoothing=0.1)
+    plain = caption_cross_entropy(logits, targets, pad_id=0)
+    assert smooth.item() != pytest.approx(plain.item())
+    with pytest.raises(ValueError):
+        caption_cross_entropy(torch.randn(4, 6), targets)
+    with pytest.raises(ValueError):
+        caption_cross_entropy(logits, targets[:, :2])
+    with pytest.raises(ValueError):
+        caption_cross_entropy(logits, targets, label_smoothing=1.0)
+
+
+def test_caption_accuracy_ignores_padding():
+    # targets[1:] = [2, 3, 0]; the pad target is excluded from the score.
+    targets = torch.tensor([[1, 2, 3, 0]])
+    logits = torch.zeros(1, 4, 6)
+    logits[0, 0, 2] = 10.0
+    logits[0, 1, 3] = 10.0
+    assert caption_accuracy(logits, targets, pad_id=0) == pytest.approx(1.0)
+    logits[0, 1, 4] = 20.0  # now position 1 predicts the wrong token
+    assert caption_accuracy(logits, targets, pad_id=0) == pytest.approx(0.5)
+    all_pad = torch.tensor([[1, 0, 0, 0]])
+    assert caption_accuracy(logits, all_pad, pad_id=0) == pytest.approx(0.0)
+
+
+def test_combine_losses_and_report():
+    contrastive = torch.tensor(1.0)
+    caption = torch.tensor(2.0)
+    assert combine_losses(contrastive, caption, caption_weight=0.5).item() == pytest.approx(2.0)
+    assert combine_losses(contrastive, caption, caption_weight=0.0).item() == pytest.approx(1.0)
+    with pytest.raises(ValueError):
+        combine_losses(contrastive, caption, caption_weight=-1.0)
+    report = loss_report(1.0, 2.0, caption_weight=0.5)
+    assert report == {"contrastive": 1.0, "caption": 2.0, "total": 2.0}
