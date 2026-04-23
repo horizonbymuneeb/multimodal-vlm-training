@@ -104,3 +104,11 @@ def test_combine_losses_and_report():
         combine_losses(contrastive, caption, caption_weight=-1.0)
     report = loss_report(1.0, 2.0, caption_weight=0.5)
     assert report == {"contrastive": 1.0, "caption": 2.0, "total": 2.0}
+
+
+def test_batch_retrieval_accuracy():
+    a, b = aligned_pair()
+    assert batch_retrieval_accuracy(a, b) == pytest.approx(1.0)
+    assert batch_retrieval_accuracy(a, torch.roll(b, 1, dims=0)) == pytest.approx(0.0)
+    with pytest.raises(ValueError):
+        batch_retrieval_accuracy(torch.randn(2, 4), torch.randn(3, 4))
