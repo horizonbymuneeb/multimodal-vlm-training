@@ -396,3 +396,4 @@
 [2026-04-22T18:34:27] Add evaluation metrics for retrieval accuracy
 [2026-04-23T15:54:39] Debug distributed training synchronization hang
 [2026-04-23T09:49:26] Implement gradient accumulation for large batches
+[2026-04-26T20:25:44] WIP: tuning learning rate schedule warmup
