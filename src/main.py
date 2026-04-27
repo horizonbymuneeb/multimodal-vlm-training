@@ -362,3 +362,5 @@ if __name__ == '__main__':
 # Implement gradient accumulation for large batches [2026-04-23T09:49:26]
 
 # Fix numerical stability in softmax computation [2026-04-27T13:17:01]
+
+# Fix batch norm sync across distributed GPUs [2026-04-27T10:09:00]
