@@ -125,3 +125,68 @@ def train_step(model, batch: Mapping[str, torch.Tensor], optimizer, cfg: TrainCo
         "caption": float(caption.item()),
         "total": float(total.item()),
     }
+
+
+def fit(model, loader, cfg: TrainConfig, *, verbose: bool = False) -> dict:
+    """Train for ``cfg.epochs`` epochs and return the loss history."""
+    set_seed(cfg.seed)
+    params = trainable_parameters(model)
+    if not params:
+        raise ValueError("model has no trainable parameters")
+    optimizer = torch.optim.AdamW(params, lr=cfg.lr, weight_decay=cfg.weight_decay)
+    history: dict = {"steps": [], "epochs": [], "seconds": 0.0}
+    start = time.time()
+    for epoch in range(cfg.epochs):
+        epoch_losses: list[float] = []
+        for batch in loader:
+            step = train_step(model, batch, optimizer, cfg)
+            history["steps"].append(step)
+            epoch_losses.append(step["total"])
+        mean_loss = float(np.mean(epoch_losses)) if epoch_losses else float("nan")
+        history["epochs"].append(mean_loss)
+        if verbose:
+            print(f"epoch {epoch + 1:02d} loss={mean_loss:.4f}")
+    history["seconds"] = time.time() - start
+    history["first_loss"] = history["steps"][0]["total"] if history["steps"] else None
+    history["last_loss"] = history["steps"][-1]["total"] if history["steps"] else None
+    return history
+
+
+def build_experiment(config: Mapping) -> dict:
+    """Build vocabulary, model, loaders and configs from a parsed config."""
+    vlm_cfg, train_cfg = config_to_vlm(config)
+    data_section = dict(config.get("data", {}))
+    train_samples = int(data_section.get("train_samples", 64))
+    val_samples = int(data_section.get("val_samples", 16))
+    seed = int(data_section.get("seed", 3))
+    min_freq = int(config.get("model", {}).get("vocab_min_freq", 1))
+    vocab = dataset_vocabulary(
+        train_samples + val_samples, image_size=train_cfg.image_size, seed=seed, min_freq=min_freq
+    )
+    vlm_cfg = VLMConfig(**{**vlm_cfg.to_dict(), "vocab_size": vocab.size})
+    model = build_model(vocab.size, vlm_cfg, seed=train_cfg.seed)
+    train_loader = make_dataloader(
+        train_samples,
+        vocab,
+        batch_size=train_cfg.batch_size,
+        image_size=train_cfg.image_size,
+        max_len=train_cfg.max_len,
+        seed=seed,
+    )
+    val_loader = make_dataloader(
+        val_samples,
+        vocab,
+        batch_size=train_cfg.batch_size,
+        image_size=train_cfg.image_size,
+        max_len=train_cfg.max_len,
+        seed=seed + 1,
+        shuffle=False,
+    )
+    return {
+        "vocab": vocab,
+        "model": model,
+        "train_loader": train_loader,
+        "val_loader": val_loader,
+        "train_cfg": train_cfg,
+        "vlm_cfg": vlm_cfg,
+    }
