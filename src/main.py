@@ -360,3 +360,5 @@ if __name__ == '__main__':
 # Add evaluation metrics for retrieval accuracy [2026-04-22T18:34:27]
 
 # Implement gradient accumulation for large batches [2026-04-23T09:49:26]
+
+# Fix numerical stability in softmax computation [2026-04-27T13:17:01]
