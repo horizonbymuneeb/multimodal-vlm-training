@@ -364,3 +364,5 @@ if __name__ == '__main__':
 # Fix numerical stability in softmax computation [2026-04-27T13:17:01]
 
 # Fix batch norm sync across distributed GPUs [2026-04-27T10:09:00]
+
+# Optimize mixed-precision training stability [2026-04-28T14:00:18]

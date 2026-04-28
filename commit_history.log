@@ -399,3 +399,4 @@
 [2026-04-26T20:25:44] WIP: tuning learning rate schedule warmup
 [2026-04-27T13:17:01] Fix numerical stability in softmax computation
 [2026-04-27T10:09:00] Fix batch norm sync across distributed GPUs
+[2026-04-28T14:00:18] Optimize mixed-precision training stability
