@@ -190,3 +190,39 @@ def build_experiment(config: Mapping) -> dict:
         "train_cfg": train_cfg,
         "vlm_cfg": vlm_cfg,
     }
+
+
+def main(argv: Iterable[str] | None = None) -> int:
+    """CLI: ``python -m src.vlm.train --config config.yaml``."""
+    parser = argparse.ArgumentParser(description="Train the toy vision-language model")
+    parser.add_argument("--config", default="config.yaml")
+    parser.add_argument("--out", default="artifacts/run.json")
+    args = parser.parse_args(list(argv) if argv is not None else None)
+
+    config = load_config(args.config)
+    bundle = build_experiment(config)
+    model = bundle["model"]
+    summary = parameter_summary(model)
+    history = fit(model, bundle["train_loader"], bundle["train_cfg"], verbose=True)
+    metrics = evaluate_all(model, bundle["val_loader"], k_values=(1, 3), pad_id=0)
+    report = {
+        "vocab_size": bundle["vocab"].size,
+        "parameters": summary,
+        "train": {
+            "epochs": history["epochs"],
+            "first_loss": history["first_loss"],
+            "last_loss": history["last_loss"],
+            "seconds": round(float(history["seconds"]), 2),
+        },
+        "val": metrics,
+        "val_summary": summarise_metrics(metrics),
+    }
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(report, indent=2))
+    print(json.dumps(report, indent=2))
+    return 0
+
+
+if __name__ == "__main__":  # pragma: no cover
+    raise SystemExit(main())
