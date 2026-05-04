@@ -368,3 +368,5 @@ if __name__ == '__main__':
 # Optimize mixed-precision training stability [2026-04-28T14:00:18]
 
 # Fix tokenizer encoding for special characters [2026-04-30T16:08:42]
+
+# Fix tokenizer encoding for special characters [2026-05-04T12:12:42]

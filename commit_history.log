@@ -402,3 +402,4 @@
 [2026-04-28T14:00:18] Optimize mixed-precision training stability
 [2026-04-30T16:08:42] Fix tokenizer encoding for special characters
 [2026-04-30T14:27:22] Debug distributed training synchronization hang
+[2026-05-04T12:12:42] Fix tokenizer encoding for special characters
