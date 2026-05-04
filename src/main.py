@@ -370,3 +370,5 @@ if __name__ == '__main__':
 # Fix tokenizer encoding for special characters [2026-04-30T16:08:42]
 
 # Fix tokenizer encoding for special characters [2026-05-04T12:12:42]
+
+# Fix batch norm sync across distributed GPUs [2026-05-04T11:43:04]

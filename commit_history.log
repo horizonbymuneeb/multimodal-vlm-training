@@ -404,3 +404,4 @@
 [2026-04-30T14:27:22] Debug distributed training synchronization hang
 [2026-05-04T12:12:42] Fix tokenizer encoding for special characters
 [2026-05-04T12:00:38] Add LoRA layer to vision encoder for efficiency
+[2026-05-04T11:43:04] Fix batch norm sync across distributed GPUs
