@@ -249,3 +249,5 @@ def format_number(n: int) -> str:
 # WIP: tuning learning rate schedule warmup [2026-04-26T20:25:44]
 
 # Debug distributed training synchronization hang [2026-04-30T14:27:22]
+
+# Add LoRA layer to vision encoder for efficiency [2026-05-04T12:00:38]
