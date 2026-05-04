@@ -53,3 +53,38 @@ class ConvStem(nn.Module):
         if images.ndim != 4:
             raise ValueError(f"expected (N, C, H, W) images, got {tuple(images.shape)}")
         return self.net(images)
+
+
+class VisionEncoder(nn.Module):
+    """Conv stem + pooled projection to ``out_dim``.
+
+    The projection is a real layer rather than a reshape so the encoder output
+    width is decoupled from the image size and the channel count.
+    """
+
+    def __init__(self, cfg: VisionConfig | None = None) -> None:
+        super().__init__()
+        self.cfg = cfg or VisionConfig()
+        self.stem = ConvStem(self.cfg.channels, self.cfg.in_channels)
+        pooled = self.cfg.channels * 4
+        self.pool = nn.AdaptiveAvgPool2d(1)
+        self.proj = nn.Linear(pooled, self.cfg.out_dim)
+        self.norm = nn.LayerNorm(self.cfg.out_dim)
+
+    def forward(self, images: torch.Tensor) -> torch.Tensor:
+        features = self.stem(images)
+        pooled = self.pool(features).flatten(1)
+        return self.norm(self.proj(pooled))
+
+    def feature_map(self, images: torch.Tensor) -> torch.Tensor:
+        """Spatial features before pooling, useful for debugging."""
+        return self.stem(images)
+
+
+def set_trainable(module: nn.Module, flag: bool) -> int:
+    """Set ``requires_grad`` on every parameter; return how many were touched."""
+    count = 0
+    for param in module.parameters():
+        param.requires_grad = flag
+        count += 1
+    return count

@@ -41,3 +41,28 @@ def test_parameter_summary_adds_up(cfg, model):
     assert summary["trainable"] == count_trainable(model)
     assert summary["lora_layers"] == len(list(iter_lora_modules(model.decoder)))
     assert summary["trainable"] < summary["total"]
+
+
+def test_trainable_parameters_are_the_optimiser_view(model):
+    params = trainable_parameters(model)
+    assert params and all(p.requires_grad for p in params)
+    assert sum(p.numel() for p in params) == count_trainable(model)
+
+
+def test_lora_layers_are_wired_into_the_decoder(model):
+    names = [name for name, _ in iter_lora_modules(model.decoder)]
+    assert names
+    assert all(name.endswith(("q_proj", "v_proj")) for name in names)
+
+
+def test_checkpoint_roundtrip_preserves_logits(cfg, model, batch, tmp_path):
+    model.eval()
+    with torch.no_grad():
+        before = model(batch["image"], batch["ids"], mask=batch["mask"])["logits"]
+    path = save_checkpoint(model, tmp_path / "vlm.pt")
+    loaded, meta = load_checkpoint(path)
+    with torch.no_grad():
+        after = loaded(batch["image"], batch["ids"], mask=batch["mask"])["logits"]
+    assert meta["vocab_size"] == cfg.vocab_size
+    assert torch.allclose(before, after, atol=1e-6)
+    assert path.exists()
