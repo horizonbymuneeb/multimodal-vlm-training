@@ -66,3 +66,30 @@ def test_checkpoint_roundtrip_preserves_logits(cfg, model, batch, tmp_path):
     assert meta["vocab_size"] == cfg.vocab_size
     assert torch.allclose(before, after, atol=1e-6)
     assert path.exists()
+
+
+def test_load_checkpoint_missing_file(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        load_checkpoint(tmp_path / "nope.pt")
+
+
+def test_config_validation_and_serialisation():
+    with pytest.raises(ValueError):
+        VLMConfig(vocab_size=20, text_dim=8, n_heads=3)
+    with pytest.raises(ValueError):
+        VLMConfig(vocab_size=20, lora_rank=0)
+    with pytest.raises(ValueError):
+        VLMConfig(vocab_size=20, lora_targets=())
+    with pytest.raises(ValueError):
+        VLMConfig(vocab_size=4)
+    cfg = VLMConfig(vocab_size=20)
+    restored = VLMConfig.from_dict(cfg.to_dict())
+    assert restored == cfg
+
+
+def test_build_model_validates_vocab_size():
+    cfg = VLMConfig(vocab_size=20)
+    with pytest.raises(ValueError):
+        build_model(21, cfg)
+    with pytest.raises(ValueError):
+        build_model(20, VLMConfig(vocab_size=20, lora_targets=("not_a_layer",)))

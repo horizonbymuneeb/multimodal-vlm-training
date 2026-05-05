@@ -88,3 +88,11 @@ def set_trainable(module: nn.Module, flag: bool) -> int:
         param.requires_grad = flag
         count += 1
     return count
+
+
+def freeze_parameters(module: nn.Module) -> int:
+    return set_trainable(module, False)
+
+
+def unfreeze_parameters(module: nn.Module) -> int:
+    return set_trainable(module, True)
