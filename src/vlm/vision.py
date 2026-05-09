@@ -96,3 +96,39 @@ def freeze_parameters(module: nn.Module) -> int:
 
 def unfreeze_parameters(module: nn.Module) -> int:
     return set_trainable(module, True)
+
+
+def count_parameters(module: nn.Module, *, trainable_only: bool = False) -> int:
+    params = module.parameters()
+    if trainable_only:
+        return sum(p.numel() for p in params if p.requires_grad)
+    return sum(p.numel() for p in params)
+
+
+def build_vision_encoder(
+    out_dim: int = 48,
+    *,
+    channels: int = 16,
+    image_size: int = 16,
+    freeze: bool = True,
+    seed: int | None = None,
+) -> VisionEncoder:
+    """Build the encoder and freeze it by default."""
+    cfg = VisionConfig(out_dim=out_dim, channels=channels, image_size=image_size)
+    if seed is not None:
+        torch.manual_seed(seed)
+    encoder = VisionEncoder(cfg)
+    if freeze:
+        freeze_parameters(encoder)
+    encoder.eval()
+    return encoder
+
+
+@torch.no_grad()
+def encode_images(encoder: VisionEncoder, images: torch.Tensor) -> torch.Tensor:
+    """Frozen inference: features for a batch of images."""
+    was_training = encoder.training
+    encoder.eval()
+    features = encoder(images)
+    encoder.train(was_training)
+    return features
