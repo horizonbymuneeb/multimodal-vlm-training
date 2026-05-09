@@ -406,3 +406,4 @@
 [2026-05-04T12:00:38] Add LoRA layer to vision encoder for efficiency
 [2026-05-04T11:43:04] Fix batch norm sync across distributed GPUs
 [2026-05-05T15:19:09] WIP: tuning learning rate schedule warmup
+[2026-05-09T16:09:13] Add model parallelism for large architectures
