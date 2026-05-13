@@ -374,3 +374,5 @@ if __name__ == '__main__':
 # Fix batch norm sync across distributed GPUs [2026-05-04T11:43:04]
 
 # Add model parallelism for large architectures [2026-05-09T16:09:13]
+
+# Add evaluation metrics for retrieval accuracy [2026-05-13T17:33:33]
