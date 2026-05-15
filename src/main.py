@@ -376,3 +376,5 @@ if __name__ == '__main__':
 # Add model parallelism for large architectures [2026-05-09T16:09:13]
 
 # Add evaluation metrics for retrieval accuracy [2026-05-13T17:33:33]
+
+# Fix numerical stability in softmax computation [2026-05-15T16:33:36]
