@@ -132,3 +132,8 @@ def encode_images(encoder: VisionEncoder, images: torch.Tensor) -> torch.Tensor:
     features = encoder(images)
     encoder.train(was_training)
     return features
+
+
+def pooled_feature_dim(cfg: VisionConfig) -> int:
+    """Width of the vector produced by :class:`VisionEncoder`."""
+    return cfg.out_dim

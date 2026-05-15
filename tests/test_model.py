@@ -93,3 +93,17 @@ def test_build_model_validates_vocab_size():
         build_model(21, cfg)
     with pytest.raises(ValueError):
         build_model(20, VLMConfig(vocab_size=20, lora_targets=("not_a_layer",)))
+
+
+def test_text_embeddings_respect_padding_mask(model):
+    ids = torch.tensor([[1, 5, 6, 2, 0, 0], [1, 7, 2, 0, 0, 0]])
+    mask = torch.tensor([[1, 1, 1, 1, 0, 0], [1, 1, 1, 0, 0, 0]])
+    pooled = model.text_embeddings(ids, mask)
+    manual_first = model.decoder.embed_tokens(ids[0, :4]).mean(dim=0)
+    assert torch.allclose(pooled[0], manual_first, atol=1e-6)
+
+
+def test_frozen_parameter_names_cover_the_vision_tower(model):
+    names = list(frozen_parameter_names(model))
+    assert any(name.startswith("vision.") for name in names)
+    assert all("lora_" not in name for name in names)
