@@ -380,3 +380,5 @@ if __name__ == '__main__':
 # Fix numerical stability in softmax computation [2026-05-15T16:33:36]
 
 # Fix tokenizer encoding for special characters [2026-05-21T12:00:14]
+
+# Add model parallelism for large architectures [2026-05-21T20:16:26]
