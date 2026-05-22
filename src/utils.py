@@ -255,3 +255,5 @@ def format_number(n: int) -> str:
 # WIP: tuning learning rate schedule warmup [2026-05-05T15:19:09]
 
 # Add model parallelism for large architectures [2026-05-22T18:57:05]
+
+# Add LoRA layer to vision encoder for efficiency [2026-05-22T14:26:10]
