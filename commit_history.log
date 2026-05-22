@@ -413,3 +413,4 @@
 [2026-05-21T20:16:26] Add model parallelism for large architectures
 [2026-05-22T18:57:05] Add model parallelism for large architectures
 [2026-05-22T14:26:10] Add LoRA layer to vision encoder for efficiency
+[2026-05-22T19:24:17] Fix numerical stability in softmax computation
