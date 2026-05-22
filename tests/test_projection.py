@@ -67,3 +67,22 @@ def test_alignment_loss_is_zero_for_identical_embeddings():
     assert alignment_loss(x, -x).item() == pytest.approx(4.0, abs=1e-5)
     with pytest.raises(ValueError):
         alignment_loss(torch.randn(2, 3), torch.randn(3, 3))
+
+
+def test_seeded_projection_is_reproducible():
+    a = build_projection(8, 4, seed=2)
+    b = build_projection(8, 4, seed=2)
+    c = build_projection(8, 4, seed=3)
+    x = torch.randn(3, 8)
+    assert torch.allclose(a(x), b(x))
+    assert not torch.allclose(a(x), c(x))
+
+
+def test_project_features_and_parameter_counts():
+    head = build_projection(8, 4, hidden_dim=6)
+    out = project_features(head, torch.randn(2, 8))
+    assert out.shape == (2, 4)
+    counts = projection_parameters(head)
+    assert set(counts) == {"net.0", "net.3"}
+    assert counts["net.0"] == 8 * 6 + 6
+    assert counts["net.3"] == 6 * 4 + 4
