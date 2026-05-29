@@ -113,3 +113,11 @@ def test_text_decoder_rejects_long_sequences_and_bad_configs():
         TextConfig(vocab_size=20, dim=8, n_heads=3)
     with pytest.raises(ValueError):
         TextConfig(vocab_size=4)
+
+
+def test_next_token_logits_drops_last_position():
+    logits = torch.randn(2, 5, 7)
+    shifted = next_token_logits(logits)
+    assert shifted.shape == (2, 4, 7)
+    with pytest.raises(ValueError):
+        next_token_logits(torch.randn(2, 5))
