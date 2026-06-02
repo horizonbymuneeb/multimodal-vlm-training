@@ -93,3 +93,9 @@ def test_save_and_load_roundtrip(tmp_path):
         Vocab.load(tmp_path / "missing.json")
     with pytest.raises(ValueError):
         Vocab.from_dict({"nope": []})
+
+
+def test_decode_batch():
+    vocab = build_vocab(["a red circle"])
+    out = decode_batch(vocab, [vocab.encode("a red circle"), vocab.encode("a")])
+    assert out == ["a red circle", "a"]
