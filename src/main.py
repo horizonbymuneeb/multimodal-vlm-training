@@ -384,3 +384,5 @@ if __name__ == '__main__':
 # Add model parallelism for large architectures [2026-05-21T20:16:26]
 
 # Add model parallelism for large architectures [2026-05-29T09:06:36]
+
+# Debug distributed training synchronization hang [2026-06-02T11:43:17]
