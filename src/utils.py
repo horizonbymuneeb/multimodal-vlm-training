@@ -263,3 +263,5 @@ def format_number(n: int) -> str:
 # Implement knowledge distillation wrapper class [2026-05-31T14:58:56]
 
 # Implement custom contrastive loss function [2026-06-02T13:42:05]
+
+# Fix numerical stability in softmax computation [2026-06-03T11:20:40]
