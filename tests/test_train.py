@@ -93,3 +93,65 @@ def test_train_step_reports_loss_components(model, batch):
     assert set(report) == {"contrastive", "caption", "total"}
     assert report["total"] == pytest.approx(report["contrastive"] + cfg.caption_weight * report["caption"])
     assert all(value > 0 for value in report.values())
+
+
+def test_train_step_updates_only_trainable_weights(model, batch):
+    cfg = TrainConfig(epochs=1, batch_size=4, lr=0.05, seed=1)
+    optimizer = torch.optim.AdamW(trainable_parameters(model), lr=cfg.lr)
+    frozen_before = {name: p.detach().clone() for name, p in model.named_parameters() if not p.requires_grad}
+    trainable_before = {name: p.detach().clone() for name, p in model.named_parameters() if p.requires_grad}
+    train_step(model, batch, optimizer, cfg)
+    for name, param in model.named_parameters():
+        if name in frozen_before:
+            assert torch.equal(param, frozen_before[name]), f"{name} changed while frozen"
+    changed = [
+        name
+        for name, param in model.named_parameters()
+        if name in trainable_before and not torch.equal(param, trainable_before[name])
+    ]
+    assert changed, "no trainable parameter changed"
+
+
+def test_fit_records_history_and_reduces_loss():
+    config = tiny_config()
+    bundle = build_experiment(config)
+    cfg = TrainConfig(epochs=2, batch_size=4, lr=0.02, seed=1)
+    history = fit(bundle["model"], bundle["train_loader"], cfg)
+    assert len(history["epochs"]) == 2
+    assert len(history["steps"]) == 2 * len(bundle["train_loader"])
+    assert all(value == value for value in history["epochs"])  # not NaN
+    assert history["last_loss"] is not None
+    assert history["last_loss"] < history["first_loss"]
+    assert history["seconds"] >= 0.0
+
+
+def test_build_experiment_wires_vocab_and_loaders():
+    config = tiny_config()
+    bundle = build_experiment(config)
+    vocab = bundle["vocab"]
+    assert bundle["model"].vocab_size == vocab.size
+    assert len(bundle["train_loader"].dataset) == 12
+    assert len(bundle["val_loader"].dataset) == 4
+    batch = next(iter(bundle["train_loader"]))
+    assert batch["ids"].max() < vocab.size
+    assert batch["image"].shape == (4, 3, 8, 8)
+
+
+def test_build_experiment_is_reproducible():
+    config = tiny_config()
+    first = build_experiment(config)
+    second = build_experiment(config)
+    a = next(iter(first["train_loader"]))
+    b = next(iter(second["train_loader"]))
+    assert torch.equal(a["ids"], b["ids"])
+    assert torch.allclose(a["image"], b["image"])
+
+
+def test_fit_requires_trainable_parameters():
+    config = tiny_config()
+    bundle = build_experiment(config)
+    model = bundle["model"]
+    for param in model.parameters():
+        param.requires_grad = False
+    with pytest.raises(ValueError):
+        fit(model, bundle["train_loader"], TrainConfig(epochs=1, batch_size=4))
