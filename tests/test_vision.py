@@ -59,3 +59,30 @@ def test_encode_images_runs_without_gradients():
     features = encode_images(encoder, images)
     assert not features.requires_grad
     assert encoder.training is False
+
+
+def test_seeded_encoders_agree():
+    a = build_vision_encoder(out_dim=8, channels=4, seed=3)
+    b = build_vision_encoder(out_dim=8, channels=4, seed=3)
+    c = build_vision_encoder(out_dim=8, channels=4, seed=4)
+    x = torch.randn(2, 3, 16, 16)
+    assert torch.allclose(a(x), b(x))
+    assert not torch.allclose(a(x), c(x))
+
+
+def test_vision_config_validation():
+    with pytest.raises(ValueError):
+        VisionConfig(out_dim=0)
+    with pytest.raises(ValueError):
+        VisionConfig(in_channels=2)
+    with pytest.raises(ValueError):
+        VisionConfig(image_size=4)
+    assert pooled_feature_dim(VisionConfig(out_dim=32)) == 32
+
+
+def test_encoder_handles_other_image_sizes():
+    encoder = build_vision_encoder(out_dim=6, channels=4)
+    for size in (8, 32):
+        out = encoder(torch.zeros(1, 3, size, size))
+        assert out.shape == (1, 6)
+    assert isinstance(encoder, VisionEncoder)
